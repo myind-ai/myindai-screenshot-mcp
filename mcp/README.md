@@ -86,23 +86,6 @@ Claude Desktop / Cursor / Windsurf launch MCP servers with a minimal inherited P
 
 The renderer is a static HTML page in `mcp/frontend/` that Chromium loads via `file://`. If it never reaches `window.__mcp.ready`, set `MCP_DEBUG=1` to see page console logs in the server's stderr.
 
-## Migrating from `appscreen-mcp`
-
-`appscreen-mcp` was the development name. v1.0.0 is the rebranded clean-room release. To migrate:
-
-```json
-{
-  "mcpServers": {
-    "myindai-screenshot": {       // ← new name, or keep "appscreen" if you prefer
-      "command": "npx",
-      "args": ["-y", "myindai-screenshot-mcp"]    // ← only this line changes
-    }
-  }
-}
-```
-
-All tool names, schemas, and behavior are preserved. No app-side changes needed.
-
 ## License
 
 [MIT](LICENSE) © 2026 Shantanu Bombatkar / myind.ai

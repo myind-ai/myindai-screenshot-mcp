@@ -20,6 +20,8 @@ Thumbs.db
 *.key
 *.p8
 secrets.json
+.npmrc
+**/.npmrc
 
 # MCP runtime output
 appscreen-output/

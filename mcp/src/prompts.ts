@@ -95,7 +95,7 @@ async function asoAppstoreScreenshotsPrompt(args: Record<string, string>) {
   const app = args.app_name ? `**App:** ${args.app_name}` : "**App:** infer from the codebase + screenshots.";
   const lang = args.language || "en";
 
-  const text = `You are an App Store Optimization (ASO) consultant guiding the user through producing a polished, high-converting screenshot SET (${count} screenshots) using the appscreen MCP renderer.
+  const text = `You are an App Store Optimization (ASO) consultant guiding the user through producing a polished, high-converting screenshot SET (${count} screenshots) using the myindai-screenshot-mcp renderer.
 
 ${app}
 **Language:** ${lang}
@@ -243,11 +243,11 @@ The tool returns paths to every screenshot + the showcase. **Save the result to 
 ### Fall-back: per-screenshot \`render_screenshot\`
 
 Only loop \`render_screenshot\` manually when the user explicitly wants per-screenshot creative variance (different position, different decoration per slot, etc.). When you do, read these resources first:
-- \`appscreen://design-guide\` — read the **"Canvas math"**, **"ASO Action-Verb Format"**, and **"Source-frame selection rule"** sections.
-- \`appscreen://presets\` — for valid font names and output device sizes.
+- \`myindai://design-guide\` — read the **"Canvas math"**, **"ASO Action-Verb Format"**, and **"Source-frame selection rule"** sections.
+- \`myindai://presets\` — for valid font names and output device sizes.
 
 ### 4a. The ACTION-VERB ASO format (apply to every screenshot)
-**Battle-tested numbers — do NOT improvise.** These were proven on Kaabil after 60+ wasted renders calibrated against text-overlap and empty-space gotchas. The full canvas math + gotchas table lives in \`appscreen://design-guide\` — re-read the "Canvas math" and "ASO Action-Verb Format" sections before each render.
+**Battle-tested numbers — do NOT improvise.** These were proven on Kaabil after 60+ wasted renders calibrated against text-overlap and empty-space gotchas. The full canvas math + gotchas table lives in \`myindai://design-guide\` — re-read the "Canvas math" and "ASO Action-Verb Format" sections before each render.
 
 Compose every \`render_screenshot\` call with:
 
@@ -447,7 +447,7 @@ The tool returns:
 
 Use \`suggested_gradient\` directly as your \`background.gradient\` unless the reference has a clearly different gradient direction (e.g. radial, or angle is obviously not 145°).
 
-### 2. Read \`appscreen://design-guide\` and \`appscreen://presets\`.
+### 2. Read \`myindai://design-guide\` and \`myindai://presets\`.
 
 ### 3. Visually parse the reference (LOOK at it). Extract these 8 things:
 
@@ -524,7 +524,7 @@ ${app}
 
 **Workflow you MUST follow:**
 
-1. Read \`appscreen://design-guide\` (especially the Motion section) and \`appscreen://presets\`.
+1. Read \`myindai://design-guide\` (especially the Motion section) and \`myindai://presets\`.
 2. Look at the input screenshot. Decide the static design (gradient, font, weight, glow color) — this becomes \`concept.base\`.
 3. Write a 3–5 act STORYBOARD. Don't render until you have the storyboard.
 4. Each act has its OWN duration, motion keyframes, and text with fade timing.
@@ -655,8 +655,8 @@ ${args.language ? `**Language:** ${args.language}` : "**Language:** en"}
 
 **Workflow you must follow:**
 
-1. Read the resource \`appscreen://design-guide\` for the design rules — pay special attention to the "Canvas math (battle-tested)" section. The y/offsetY semantics are counter-intuitive and the #1 cause of botched layouts.
-2. Read \`appscreen://presets\` to see the exact gradient names available.
+1. Read the resource \`myindai://design-guide\` for the design rules — pay special attention to the "Canvas math (battle-tested)" section. The y/offsetY semantics are counter-intuitive and the #1 cause of botched layouts.
+2. Read \`myindai://presets\` to see the exact gradient names available.
 3. Look at the input screenshot. Decide:
    - What does the app do? What is this specific screen showing?
    - What ONE benefit should the headline communicate?
@@ -721,7 +721,7 @@ ${args.language ? `**Language:** ${args.language}` : "**Language:** en"}
    (e.g. \`bleed-bottom\` for hooks, \`tilt-left\` / \`tilt-right\` for features).
 
 **Workflow:**
-1. Read \`appscreen://design-guide\` and \`appscreen://presets\`.
+1. Read \`myindai://design-guide\` and \`myindai://presets\`.
 2. Look at all input screenshots together. Plan the storyboard.
 3. Decide the shared visual language (background family, font, weight, text color).
 4. Render each screenshot in turn via \`render_screenshot\`, varying only the headline,

@@ -19,8 +19,8 @@ If smoke passes locally you have a working development environment. The MCP serv
 
 The renderer in `mcp/frontend/` is being re-implemented from scratch against a behavioural spec ([docs/clean-room-rewrite.md](docs/clean-room-rewrite.md)). To keep its provenance auditable:
 
-1. If you have read the legacy renderer source at `github.com/YUZU-Hub/appscreen` (or in our private `shaantanu9/appscreen-legacy-backup` repo) you may not contribute renderer code. You can contribute to `mcp/` (server) freely.
-2. Renderer PRs must reference the section of `docs/clean-room-rewrite.md` (or the MCP server source contract) that motivated the change. The PR description includes the line: *"I have not read the YUZU-Hub appscreen renderer source."*
+1. If you have read any third-party screenshot/renderer source (see the canonical list in `docs/clean-room-rewrite.md`) you may not contribute renderer code. You can contribute to `mcp/` (server) freely.
+2. Renderer PRs must reference the section of `docs/clean-room-rewrite.md` (or the MCP server source contract) that motivated the change. The PR description includes the line: *"I have not read any disqualified renderer source listed in docs/clean-room-rewrite.md."*
 3. Each renderer commit message follows the form `renderer: <subsystem>: <change> (clean-room, from spec §<n>)` for the audit trail.
 
 If you're unsure whether your background disqualifies you, ask in an issue first — we'll find a way to involve you.

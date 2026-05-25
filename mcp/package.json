@@ -1,6 +1,6 @@
 {
   "name": "myindai-screenshot-mcp",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "MCP server that turns raw app screenshots into polished App Store / Play Store marketing screenshots, A/B variants, localized sets, and product videos. 25 tools across the full ASO pipeline.",
   "type": "module",
   "license": "MIT",

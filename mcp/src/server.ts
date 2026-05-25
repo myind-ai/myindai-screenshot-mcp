@@ -39,7 +39,7 @@ import { RESOURCES, readResource } from "./resources.js";
 import { PROMPTS, getPrompt } from "./prompts.js";
 
 const server = new Server(
-  { name: "myindai-screenshot-mcp", version: "1.0.0-rc.1" },
+  { name: "myindai-screenshot-mcp", version: "1.0.0-rc.2" },
   {
     capabilities: {
       tools: {},
@@ -59,7 +59,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       name: "render_screenshot",
       description:
         "Render a polished App Store screenshot from a raw app screenshot using client-supplied creative choices. " +
-        "Read appscreen://design-guide and appscreen://presets first. The high-level fields (headline, subheadline, mode, " +
+        "Read myindai://design-guide and myindai://presets first. The high-level fields (headline, subheadline, mode, " +
         "position_preset, background_preset) cover most cases; use the nested `background`, `screenshot`, and `text` " +
         "objects for fine control over shadows, 3D rotation, fonts, weights, custom gradients, noise, and more.",
       inputSchema: {
@@ -83,11 +83,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
               "centered", "bleed-bottom", "bleed-top", "float-center",
               "tilt-left", "tilt-right", "perspective", "float-bottom",
             ],
-            description: "How the device sits on the canvas. See appscreen://design-guide for the cookbook.",
+            description: "How the device sits on the canvas. See myindai://design-guide for the cookbook.",
           },
           background_preset: {
             type: "string",
-            description: "Gradient name (case-insensitive). See appscreen://presets for full list.",
+            description: "Gradient name (case-insensitive). See myindai://presets for full list.",
           },
           accent_color: { type: "string", description: "Hex color (informational)." },
           text_color: { type: "string", enum: ["light", "dark"], description: "Headline/subheadline color theme." },
@@ -763,7 +763,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         "RECOMMENDED for product videos. Render a multi-act storyboard with proper enter/hold/exit timing and DECOUPLED text fade in/out. " +
         "Each act has its own motion keyframes, headline/subheadline, and fade timing. Acts join via 'cut' or 'crossfade'. " +
         "Use this when you want a real product video story (intro reveal → feature highlight → CTA), not just a single sweep. " +
-        "First read `appscreen://design-guide` motion section AND invoke the `design_product_video_concept` prompt to plan your acts before calling this tool. " +
+        "First read `myindai://design-guide` motion section AND invoke the `design_product_video_concept` prompt to plan your acts before calling this tool. " +
         "Requires ffmpeg in PATH.",
       inputSchema: {
         type: "object",
@@ -1230,7 +1230,7 @@ server.setRequestHandler(GetPromptRequestSchema, async (req) => {
 
 async function doctor() {
   process.stdout.write(`[myindai-screenshot-mcp] doctor — diagnosing the environment as the MCP process sees it\n\n`);
-  process.stdout.write(`myindai-screenshot-mcp version : 1.0.0-rc.1\n`);
+  process.stdout.write(`myindai-screenshot-mcp version : 1.0.0-rc.2\n`);
   process.stdout.write(`node                            : ${process.version}\n`);
   process.stdout.write(`platform                        : ${process.platform} (${process.arch})\n`);
   process.stdout.write(`cwd                             : ${process.cwd()}\n`);
@@ -1256,7 +1256,7 @@ async function doctor() {
     process.stdout.write(`ffprobe                         : (not found) ${e?.message || e}\n`);
   }
   process.stdout.write(`\n`);
-  process.stdout.write(`v1.0.0-rc.1 status:\n`);
+  process.stdout.write(`v1.0.0-rc.2 status:\n`);
   process.stdout.write(`  - LLM not required for any working tool. Vision tools land in v1.0.0-rc.3 via MCP sampling.\n`);
   process.stdout.write(`  - ffmpeg / ffprobe not required for any working tool. Video tools land in v1.1.0.\n`);
 }
@@ -1268,13 +1268,13 @@ async function main() {
     return;
   }
   if (args.includes("--version") || args.includes("-v")) {
-    process.stdout.write(`myindai-screenshot-mcp 1.0.0-rc.1\n`);
+    process.stdout.write(`myindai-screenshot-mcp 1.0.0-rc.2\n`);
     return;
   }
   if (args.includes("--help") || args.includes("-h")) {
     process.stdout.write(
       [
-        `myindai-screenshot-mcp 1.0.0-rc.1 — App Store / Play Store screenshot + video MCP`,
+        `myindai-screenshot-mcp 1.0.0-rc.2 — App Store / Play Store screenshot + video MCP`,
         ``,
         `Usage:`,
         `  myindai-screenshot-mcp           start the stdio MCP server (default — what MCP clients invoke)`,

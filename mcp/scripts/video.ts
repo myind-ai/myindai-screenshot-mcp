@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * appscreen-video — produce a polished product video from one or more app screenshots.
+ * myindai-video — produce a polished product video from one or more app screenshots.
  *
  *   npx tsx mcp/scripts/video.ts <out.mp4> <screen1.png> [screen2.png ...] [flags]
  *
@@ -514,7 +514,7 @@ function buildConceptForShot(plan: ShotPlan, style: Style, base: Decision): Conc
 }
 
 // ─── Named templates ─────────────────────────────────────────────────────────
-// Five-scene storyboards that mirror the spec at appscreen-output/.../video_scene.md
+// Five-scene storyboards that mirror the spec at mcp-output/.../video_scene.md
 // 1:1 in pacing and intent. Where the spec calls for things the renderer can't
 // literally do (multi-phone fan-outs, mid-frame screen swaps, particles, lottie),
 // we degrade to the closest single-phone equivalent — clearly noted inline.
@@ -1248,7 +1248,7 @@ async function main() {
   console.log(`[video] out=${cli.out}`);
 
   // Render one mp4 per ClipPlan.
-  const clipsDir = path.join(repoRoot, "appscreen-output", "_video-clips");
+  const clipsDir = path.join(repoRoot, "mcp-output", "_video-clips");
   await fs.mkdir(clipsDir, { recursive: true });
   const clipPaths: string[] = [];
   for (let i = 0; i < clipPlans.length; i++) {

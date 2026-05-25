@@ -50,7 +50,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - All renderer code traceable to `github.com/YUZU-Hub/appscreen` (no licence). Replaced with original implementation written from scratch.
 - All assets traceable to YUZU-Hub upstream (`info.svg`, laurel SVGs, device `.glb` files) — temporarily replaced with placeholders. Real assets land in v1.0.0-rc.2 with provenance logged in `ASSETS.md`.
 - The legacy `Abhishek_Mansi.mp4` test artefact (excluded from both new repos via `.gitignore`).
-- `appscreen-output/` runtime directory and `*.tgz` build artefacts (gitignored).
+- `mcp-output/` runtime directory and `*.tgz` build artefacts (gitignored).
 
 ### Security
 

@@ -89,7 +89,7 @@ export async function renderVideoTemplate(input: RenderVideoTemplateInput): Prom
     : path.resolve(process.cwd(), input.output_path);
   await fs.mkdir(path.dirname(absOut), { recursive: true });
 
-  const clipsDir = path.join(REPO_ROOT, "appscreen-output", "_video-template-clips");
+  const clipsDir = path.join(REPO_ROOT, "mcp-output", "_video-template-clips");
   await fs.mkdir(clipsDir, { recursive: true });
 
   const t0 = Date.now();

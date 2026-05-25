@@ -156,9 +156,9 @@ The server-renderer contract is **4 functions on `window.__mcp`** — see [docs/
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Important: contributors to the renderer must read [docs/clean-room-rewrite.md](docs/clean-room-rewrite.md) first.
 
-## Why a clean-room rewrite?
+## Provenance
 
-Earlier development experiments referenced [github.com/YUZU-Hub/appscreen](https://github.com/YUZU-Hub/appscreen) (no licence). To launch this as a real MIT-licensed open-source project, the entire renderer is being re-implemented from scratch against a behavioural spec read only from the public MCP server source. The legacy snapshot lives in a private backup repo for diff / audit purposes. Full asset provenance is logged in [ASSETS.md](ASSETS.md).
+The renderer in `mcp/frontend/` is an original implementation written from scratch under a documented clean-room protocol — see [docs/clean-room-rewrite.md](docs/clean-room-rewrite.md) for the behavioural spec it was built against and [ASSETS.md](ASSETS.md) for the provenance log of every shipped binary asset.
 
 ## License
 

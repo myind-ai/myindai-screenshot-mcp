@@ -11,35 +11,35 @@ export interface ResourceDescriptor {
 
 export const RESOURCES: ResourceDescriptor[] = [
   {
-    uri: "appscreen://presets",
+    uri: "myindai://presets",
     name: "Available presets (gradients, positions, fonts)",
     description:
       "The full catalog of gradients, position presets, font families, weights, and output device sizes the renderer supports. Read this BEFORE calling render_screenshot so you use valid names.",
     mimeType: "application/json",
   },
   {
-    uri: "appscreen://schema",
+    uri: "myindai://schema",
     name: "render_screenshot input schema (full)",
     description:
       "Detailed JSON schema for the render_screenshot tool, including all nested fields (background, screenshot, text, shadow, frame, 3D rotation). Read this when you need fine control beyond the high-level fields.",
     mimeType: "application/json",
   },
   {
-    uri: "appscreen://design-guide",
+    uri: "myindai://design-guide",
     name: "App Store screenshot design guide",
     description:
       "Battle-tested guidance for App Store screenshots: copy length, position-preset cookbook, when to use 3D, color theory, contrast rules, font pairing, depth/shadow do's-and-don'ts.",
     mimeType: "text/markdown",
   },
   {
-    uri: "appscreen://assets",
+    uri: "myindai://assets",
     name: "Bundled asset library",
     description:
       "List of bundled accent shapes, decorations, device tints, and patterns. Each is an inline SVG that can be tinted via `get_asset` and dropped into a render. Read first, then call `get_asset` to fetch a specific asset by id.",
     mimeType: "text/markdown",
   },
   {
-    uri: "appscreen://memory",
+    uri: "myindai://memory",
     name: "Skill memory namespaces",
     description:
       "List of persisted skill-memory namespaces and their on-disk size + last-modified time. Use `memory_read` / `memory_write` tools to interact with the contents.",
@@ -52,7 +52,7 @@ export async function readResource(uri: string): Promise<{
   mimeType: string;
   text: string;
 }> {
-  if (uri === "appscreen://presets") {
+  if (uri === "myindai://presets") {
     const presets = await listPresets();
     const summary = summarizePresets(presets);
     return {
@@ -62,7 +62,7 @@ export async function readResource(uri: string): Promise<{
     };
   }
 
-  if (uri === "appscreen://schema") {
+  if (uri === "myindai://schema") {
     return {
       uri,
       mimeType: "application/json",
@@ -70,15 +70,15 @@ export async function readResource(uri: string): Promise<{
     };
   }
 
-  if (uri === "appscreen://design-guide") {
+  if (uri === "myindai://design-guide") {
     return { uri, mimeType: "text/markdown", text: DESIGN_GUIDE };
   }
 
-  if (uri === "appscreen://assets") {
+  if (uri === "myindai://assets") {
     return { uri, mimeType: "text/markdown", text: describeAssetLibrary() };
   }
 
-  if (uri === "appscreen://memory") {
+  if (uri === "myindai://memory") {
     const namespaces = await listMemoryNamespaces();
     return {
       uri,
@@ -131,7 +131,7 @@ const FULL_SCHEMA = {
   mode: "'2d' | '3d'",
   position_preset:
     "'centered' | 'bleed-bottom' | 'bleed-top' | 'float-center' | 'tilt-left' | 'tilt-right' | 'perspective' | 'float-bottom'",
-  background_preset: "string — gradient name from appscreen://presets",
+  background_preset: "string — gradient name from myindai://presets",
   text_color: "'light' | 'dark'",
   // Detailed overrides
   background: {
@@ -761,9 +761,9 @@ text: {
 - ✅ \`suggest_headlines\` — vision-driven ACTION VERB + DESCRIPTOR suggestions ranked by what's actually visible on screen, with per-suggestion confidence + screen-summary sanity check.
 - ✅ \`render_multi_size\` — one set → 6.9"/6.7"/6.5"/5.5" all rendered with correct dimensions; brand colour shared across sizes.
 - ✅ \`render_ab_variants\` — render the same set in 2-8 brand-colour variants and a master contact-sheet for paid-acquisition picking. Curated default palette covers warm/cool/vivid/premium/editorial.
-- ✅ \`memory_read\` / \`memory_write\` + \`appscreen://memory\` resource — typed JSON store under ~/.myindai-screenshot-mcp/memory/<namespace>.json. Eliminates the "Claude has to remember to write the right markdown file" failure mode.
+- ✅ \`memory_read\` / \`memory_write\` + \`myindai://memory\` resource — typed JSON store under ~/.myindai-screenshot-mcp/memory/<namespace>.json. Eliminates the "Claude has to remember to write the right markdown file" failure mode.
 - ✅ \`render_localized_set\` — render a set in N languages with auto-translated headlines (Anthropic), per-script font fallbacks (CJK, Devanagari, Arabic, Hebrew), and RTL alignment flips.
-- ✅ \`list_assets\` / \`get_asset\` + \`appscreen://assets\` resource — bundled accent shapes, decorations, device tints, and patterns. SVGs that tint via \`tint_color\` and drop into renders.
+- ✅ \`list_assets\` / \`get_asset\` + \`myindai://assets\` resource — bundled accent shapes, decorations, device tints, and patterns. SVGs that tint via \`tint_color\` and drop into renders.
 - ✅ \`record_telemetry\` / \`list_telemetry\` — optional JSONL hook under ~/.myindai-screenshot-mcp/telemetry/ to correlate template/colour/headline → impressions/installs over time.
 - ✅ \`render_play_store_set\` — Android Play Store mode (1080×1920 default, 9:16) with an Android-tuned recipe and Samsung device frame.
 - ✅ \`clone_reference\` — programmatic version of the \`clone_template\` prompt: vision → render decision JSON in one call, drops straight into \`render_screenshot\`.
@@ -795,7 +795,7 @@ When the user shares a REFERENCE template (someone else's polished App Store scr
 6. **If you can't reproduce something** (illustrations, mascots, photo backgrounds outside the palette), say so to the user instead of approximating badly.
 
 ## Workflow
-1. Read \`appscreen://presets\` to see exact gradient names and presets.
+1. Read \`myindai://presets\` to see exact gradient names and presets.
 2. Look at the screenshot. What's the app? What's the screen showing?
 3. Pick a position preset that fits the screen content.
 4. Pick a gradient that matches the mood.
@@ -842,7 +842,7 @@ You decide a static "look" (same choices as a still) PLUS a scene that animates 
 - The \`base\` you pass is the static design. Pick that the way you'd pick a still — gradient, fonts, weight — then layer the scene on top.
 
 ### Workflow
-1. Read \`appscreen://presets\`.
+1. Read \`myindai://presets\`.
 2. Look at the screenshot. Pick the static design exactly as you would for a still.
 3. Pick the scene (default tilt-in unless you have a reason).
 4. Set duration (default 3s) and format (default mp4).

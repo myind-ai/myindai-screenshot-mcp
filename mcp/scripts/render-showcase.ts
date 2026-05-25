@@ -112,10 +112,10 @@ function parseArgs(argv: string[]): CliOptions {
   const folderName = path.basename(resolvedInput);
   const outputPath =
     arg("--output") ||
-    path.join(repoRoot, "appscreen-output", `${folderName}-3d-production-showcase.mp4`);
+    path.join(repoRoot, "mcp-output", `${folderName}-3d-production-showcase.mp4`);
   const tempDir =
     arg("--temp-dir") ||
-    path.join(repoRoot, "appscreen-output", `${folderName}-video-clips`);
+    path.join(repoRoot, "mcp-output", `${folderName}-video-clips`);
 
   return {
     inputDir: resolvedInput,
@@ -150,7 +150,7 @@ Optional:
 
 Examples:
   npx tsx scripts/render-showcase.ts --input-dir ../kaabil_screenshot/best/6.7
-  npx tsx scripts/render-showcase.ts --input-dir ./myapp/screens --manifest ./myapp/manifest.json --output ../appscreen-output/myapp.mp4
+  npx tsx scripts/render-showcase.ts --input-dir ./myapp/screens --manifest ./myapp/manifest.json --output ../mcp-output/myapp.mp4
 `);
 }
 
