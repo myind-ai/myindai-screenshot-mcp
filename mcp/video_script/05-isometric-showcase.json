@@ -1,0 +1,676 @@
+{
+  "_name": "Isometric Grid Showcase",
+  "_style": "Devices arranged on isometric plane, architectural precision, clean geometric layout",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 16,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "natural_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "screen_1",
+      "src": "screens/screen_1.png"
+    },
+    {
+      "id": "screen_2",
+      "src": "screens/screen_2.png"
+    },
+    {
+      "id": "screen_3",
+      "src": "screens/screen_3.png"
+    },
+    {
+      "id": "screen_4",
+      "src": "screens/screen_4.png"
+    },
+    {
+      "id": "screen_5",
+      "src": "screens/screen_5.png"
+    },
+    {
+      "id": "screen_6",
+      "src": "screens/screen_6.png"
+    }
+  ],
+  "background": {
+    "type": "gradient",
+    "angle": 135,
+    "stops": [
+      {
+        "color": "#e8e8ed",
+        "position": 0
+      },
+      {
+        "color": "#d2d2d7",
+        "position": 100
+      }
+    ]
+  },
+  "audio": {
+    "music": {
+      "src": "audio/minimal-tech.mp3",
+      "volume": 0.4,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/place.mp3",
+        "at": 1.5,
+        "volume": 0.2
+      },
+      {
+        "src": "audio/place.mp3",
+        "at": 3.5,
+        "volume": 0.2
+      },
+      {
+        "src": "audio/place.mp3",
+        "at": 5.5,
+        "volume": 0.2
+      },
+      {
+        "src": "audio/place.mp3",
+        "at": 7.5,
+        "volume": 0.2
+      },
+      {
+        "src": "audio/place.mp3",
+        "at": 9.5,
+        "volume": 0.2
+      }
+    ]
+  },
+  "global_transform": {
+    "rotateX": 55,
+    "rotateY": 0,
+    "rotateZ": -45,
+    "perspective": 1800
+  },
+  "scenes": [
+    {
+      "id": "s1_place_grid",
+      "start": 0,
+      "duration": 6,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "screen_1",
+          "instance_id": "iso_0",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": -30
+              },
+              "to": {
+                "x": 20,
+                "y": 25
+              },
+              "delay": 0.0,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0.0,
+              "duration": 0.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.3,
+              "to": 0.45,
+              "delay": 0.0,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_2",
+          "instance_id": "iso_1",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": -30
+              },
+              "to": {
+                "x": 45,
+                "y": 25
+              },
+              "delay": 0.6,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0.6,
+              "duration": 0.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.3,
+              "to": 0.45,
+              "delay": 0.6,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_3",
+          "instance_id": "iso_2",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": -30
+              },
+              "to": {
+                "x": 70,
+                "y": 25
+              },
+              "delay": 1.2,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.2,
+              "duration": 0.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.3,
+              "to": 0.45,
+              "delay": 1.2,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_4",
+          "instance_id": "iso_3",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": -30
+              },
+              "to": {
+                "x": 20,
+                "y": 60
+              },
+              "delay": 1.7999999999999998,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.7999999999999998,
+              "duration": 0.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.3,
+              "to": 0.45,
+              "delay": 1.7999999999999998,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_5",
+          "instance_id": "iso_4",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": -30
+              },
+              "to": {
+                "x": 45,
+                "y": 60
+              },
+              "delay": 2.4,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.4,
+              "duration": 0.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.3,
+              "to": 0.45,
+              "delay": 2.4,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_6",
+          "instance_id": "iso_5",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": -30
+              },
+              "to": {
+                "x": 70,
+                "y": 60
+              },
+              "delay": 3.0,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 3.0,
+              "duration": 0.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.3,
+              "to": 0.45,
+              "delay": 3.0,
+              "duration": 1.2,
+              "easing": "spring(100, 14)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_highlight_one",
+      "start": 6,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "screen_1",
+          "instance_id": "iso_0",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1.0,
+              "to": 0.3,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_2",
+          "instance_id": "iso_1",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1.0,
+              "to": 0.3,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_3",
+          "instance_id": "iso_2",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1.0,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.45,
+              "to": 0.7,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 70,
+                "y": 25
+              },
+              "to": {
+                "x": 50,
+                "y": 45
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_4",
+          "instance_id": "iso_3",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1.0,
+              "to": 0.3,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_5",
+          "instance_id": "iso_4",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1.0,
+              "to": 0.3,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_6",
+          "instance_id": "iso_5",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1.0,
+              "to": 0.3,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_camera_orbit",
+      "start": 10,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "camera",
+          "animations": [
+            {
+              "property": "global_transform",
+              "from": {
+                "rotateX": 55,
+                "rotateZ": -45
+              },
+              "to": {
+                "rotateX": 55,
+                "rotateZ": 45
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_exit",
+      "start": 13.5,
+      "duration": 2.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "screen_1",
+          "instance_id": "iso_0",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 0.0,
+              "duration": 0.6,
+              "easing": "easeIn"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 120
+              },
+              "delay": 0.0,
+              "duration": 0.8,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_2",
+          "instance_id": "iso_1",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 0.15,
+              "duration": 0.6,
+              "easing": "easeIn"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 120
+              },
+              "delay": 0.15,
+              "duration": 0.8,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_3",
+          "instance_id": "iso_2",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 0.3,
+              "duration": 0.6,
+              "easing": "easeIn"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 120
+              },
+              "delay": 0.3,
+              "duration": 0.8,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_4",
+          "instance_id": "iso_3",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 0.44999999999999996,
+              "duration": 0.6,
+              "easing": "easeIn"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 120
+              },
+              "delay": 0.44999999999999996,
+              "duration": 0.8,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_5",
+          "instance_id": "iso_4",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 0.6,
+              "duration": 0.6,
+              "easing": "easeIn"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 120
+              },
+              "delay": 0.6,
+              "duration": 0.8,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "screen_6",
+          "instance_id": "iso_5",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 0.75,
+              "duration": 0.6,
+              "easing": "easeIn"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 120
+              },
+              "delay": 0.75,
+              "duration": 0.8,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Six Screens. One Vision.",
+          "font": "SF Pro Display",
+          "font_size": 44,
+          "font_weight": 700,
+          "color": "#1d1d1f",
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.0,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

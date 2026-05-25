@@ -1,0 +1,382 @@
+{
+  "_name": "Time-Lapse Journey",
+  "_style": "Day-to-night background transition while screens cycle rapidly, showing passage of time",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 60,
+    "duration": 18,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "natural_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "morning",
+      "src": "screens/morning.png"
+    },
+    {
+      "id": "noon",
+      "src": "screens/noon.png"
+    },
+    {
+      "id": "evening",
+      "src": "screens/evening.png"
+    },
+    {
+      "id": "night",
+      "src": "screens/night.png"
+    },
+    {
+      "id": "summary",
+      "src": "screens/summary.png"
+    }
+  ],
+  "background": {
+    "type": "animated_gradient",
+    "direction": "vertical",
+    "keyframes": [
+      {
+        "time": 0,
+        "stops": [
+          {
+            "color": "#87CEEB",
+            "position": 0
+          },
+          {
+            "color": "#E0F7FA",
+            "position": 100
+          }
+        ]
+      },
+      {
+        "time": 6,
+        "stops": [
+          {
+            "color": "#4FC3F7",
+            "position": 0
+          },
+          {
+            "color": "#FFF9C4",
+            "position": 100
+          }
+        ]
+      },
+      {
+        "time": 12,
+        "stops": [
+          {
+            "color": "#FF7043",
+            "position": 0
+          },
+          {
+            "color": "#4A148C",
+            "position": 100
+          }
+        ]
+      },
+      {
+        "time": 18,
+        "stops": [
+          {
+            "color": "#0D0D2B",
+            "position": 0
+          },
+          {
+            "color": "#1A1A3E",
+            "position": 100
+          }
+        ]
+      }
+    ]
+  },
+  "audio": {
+    "music": {
+      "src": "audio/time-passing.mp3",
+      "volume": 0.5,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/clock-tick.mp3",
+        "at": 3.0,
+        "volume": 0.2
+      },
+      {
+        "src": "audio/clock-tick.mp3",
+        "at": 7.0,
+        "volume": 0.2
+      },
+      {
+        "src": "audio/clock-tick.mp3",
+        "at": 11.0,
+        "volume": 0.2
+      },
+      {
+        "src": "audio/clock-tick.mp3",
+        "at": 15.0,
+        "volume": 0.2
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_morning",
+      "start": 0,
+      "duration": 4.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "morning",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 120
+              },
+              "to": {
+                "x": 50,
+                "y": 50
+              },
+              "delay": 0.3,
+              "duration": 2.0,
+              "easing": "spring(100, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "6:00 AM",
+          "font": "SF Pro Display",
+          "font_size": 28,
+          "font_weight": 300,
+          "color": "#1d1d1f",
+          "position": {
+            "x": 50,
+            "y": 15
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.5,
+              "duration": 0.6,
+              "easing": "easeOut"
+            },
+            {
+              "property": "counter",
+              "from": "6:00 AM",
+              "to": "12:00 PM",
+              "delay": 2.5,
+              "duration": 2.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_noon",
+      "start": 4.5,
+      "duration": 4.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "noon",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "slide",
+              "from_screen": "morning",
+              "to_screen": "noon",
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeInOut",
+              "direction": "up"
+            },
+            {
+              "property": "float",
+              "amplitude": 5,
+              "frequency": 0.3,
+              "delay": 1.0,
+              "duration": 3.5
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "12:00 PM",
+          "font": "SF Pro Display",
+          "font_size": 28,
+          "font_weight": 300,
+          "color": "#1d1d1f",
+          "position": {
+            "x": 50,
+            "y": 15
+          },
+          "animations": [
+            {
+              "property": "counter",
+              "from": "12:00 PM",
+              "to": "6:00 PM",
+              "delay": 2.0,
+              "duration": 2.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_evening",
+      "start": 9,
+      "duration": 4.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "evening",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "noon",
+              "to_screen": "evening",
+              "delay": 0,
+              "duration": 1.2,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 5,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "particles",
+          "particle_type": "stars",
+          "count": 20,
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 0.6,
+              "delay": 2.0,
+              "duration": 2.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_night_summary",
+      "start": 13.5,
+      "duration": 4.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "summary",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "evening",
+              "to_screen": "summary",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 5,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.7,
+              "delay": 2.5,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Your Day. Captured.",
+          "font": "SF Pro Display",
+          "font_size": 40,
+          "font_weight": 700,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.0,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

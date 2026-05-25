@@ -1,0 +1,287 @@
+{
+  "_name": "Liquid Morph",
+  "_style": "Screens transition with liquid/fluid morphing effects, organic movement",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 60,
+    "duration": 15,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "blue_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "wave_1",
+      "src": "screens/wave_1.png"
+    },
+    {
+      "id": "wave_2",
+      "src": "screens/wave_2.png"
+    },
+    {
+      "id": "wave_3",
+      "src": "screens/wave_3.png"
+    },
+    {
+      "id": "wave_4",
+      "src": "screens/wave_4.png"
+    }
+  ],
+  "background": {
+    "type": "mesh_gradient",
+    "colors": [
+      "#001f3f",
+      "#003366",
+      "#004080",
+      "#001f3f"
+    ]
+  },
+  "audio": {
+    "music": {
+      "src": "audio/liquid-ambient.mp3",
+      "volume": 0.5,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/water-drop.mp3",
+        "at": 2.5,
+        "volume": 0.35
+      },
+      {
+        "src": "audio/water-drop.mp3",
+        "at": 6.0,
+        "volume": 0.35
+      },
+      {
+        "src": "audio/water-drop.mp3",
+        "at": 9.5,
+        "volume": 0.35
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_bubble_up",
+      "start": 0,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "wave_1",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 130
+              },
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 2.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "mask",
+              "shape": "circle",
+              "from_radius": 0,
+              "to_radius": 120,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeOut",
+              "origin": {
+                "x": 50,
+                "y": 100
+              }
+            },
+            {
+              "property": "scale",
+              "from": 0.6,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 2.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_liquid_transition_1",
+      "start": 4,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "wave_2",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "liquid_morph",
+              "from_screen": "wave_1",
+              "to_screen": "wave_2",
+              "delay": 0,
+              "duration": 1.8,
+              "easing": "easeInOut",
+              "turbulence": 0.3,
+              "scale": 50
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 5,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "delay": 0.5,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "float",
+              "amplitude": 8,
+              "frequency": 0.5,
+              "delay": 0,
+              "duration": 3.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_liquid_transition_2",
+      "start": 7.5,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "wave_3",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "liquid_morph",
+              "from_screen": "wave_2",
+              "to_screen": "wave_3",
+              "delay": 0,
+              "duration": 1.8,
+              "easing": "easeInOut",
+              "turbulence": 0.5,
+              "scale": 70
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 5,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": -5,
+                "rotateY": 8,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "float",
+              "amplitude": 10,
+              "frequency": 0.4,
+              "delay": 0,
+              "duration": 3.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_drain",
+      "start": 11,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "wave_4",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "liquid_morph",
+              "from_screen": "wave_3",
+              "to_screen": "wave_4",
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "mask",
+              "shape": "circle",
+              "from_radius": 120,
+              "to_radius": 0,
+              "delay": 2.0,
+              "duration": 1.5,
+              "easing": "easeIn",
+              "origin": {
+                "x": 50,
+                "y": 50
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Flow State",
+          "font": "SF Pro Display",
+          "font_size": 44,
+          "font_weight": 700,
+          "color": "#4ac3ff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

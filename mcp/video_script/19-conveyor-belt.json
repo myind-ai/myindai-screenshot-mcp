@@ -1,0 +1,714 @@
+{
+  "_name": "Conveyor Belt",
+  "_style": "Devices move along a 3D conveyor belt path, factory/production line aesthetic",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 16,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "natural_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "step_1",
+      "src": "screens/step_1.png"
+    },
+    {
+      "id": "step_2",
+      "src": "screens/step_2.png"
+    },
+    {
+      "id": "step_3",
+      "src": "screens/step_3.png"
+    },
+    {
+      "id": "step_4",
+      "src": "screens/step_4.png"
+    },
+    {
+      "id": "step_5",
+      "src": "screens/step_5.png"
+    }
+  ],
+  "background": {
+    "type": "gradient",
+    "angle": 180,
+    "stops": [
+      {
+        "color": "#1a1a2e",
+        "position": 0
+      },
+      {
+        "color": "#16213e",
+        "position": 100
+      }
+    ]
+  },
+  "audio": {
+    "music": {
+      "src": "audio/mechanical-rhythm.mp3",
+      "volume": 0.5,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/conveyor-stop.mp3",
+        "at": 1.5,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/conveyor-stop.mp3",
+        "at": 4.5,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/conveyor-stop.mp3",
+        "at": 7.5,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/conveyor-stop.mp3",
+        "at": 10.5,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/conveyor-stop.mp3",
+        "at": 13.0,
+        "volume": 0.3
+      }
+    ]
+  },
+  "camera": {
+    "path_type": "bezier",
+    "fov": 60
+  },
+  "scenes": [
+    {
+      "id": "s1_belt_start",
+      "start": 0,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "conveyor_path",
+          "points": [
+            {
+              "x": -20,
+              "y": 60
+            },
+            {
+              "x": 30,
+              "y": 55
+            },
+            {
+              "x": 50,
+              "y": 50
+            },
+            {
+              "x": 70,
+              "y": 55
+            },
+            {
+              "x": 120,
+              "y": 60
+            }
+          ],
+          "depth_curve": true
+        },
+        {
+          "type": "mockup",
+          "screen": "step_1",
+          "instance_id": "belt_0",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "from_t": -0.2,
+              "to_t": 0.1,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.4,
+              "to": 0.33999999999999997,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 15,
+                "rotateY": 20,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 10,
+                "rotateY": 15,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_2",
+          "instance_id": "belt_1",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "from_t": 0.04999999999999999,
+              "to_t": 0.35,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.35,
+              "to": 0.42,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 15,
+                "rotateY": 10,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 10,
+                "rotateY": 5,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_3",
+          "instance_id": "belt_2",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "from_t": 0.3,
+              "to_t": 0.6,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.3,
+              "to": 0.5,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 15,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 10,
+                "rotateY": -5,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_4",
+          "instance_id": "belt_3",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "from_t": 0.55,
+              "to_t": 0.85,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.35,
+              "to": 0.42,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 15,
+                "rotateY": -10,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 10,
+                "rotateY": -15,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_5",
+          "instance_id": "belt_4",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "from_t": 0.8,
+              "to_t": 1.1,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.4,
+              "to": 0.33999999999999997,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 15,
+                "rotateY": -20,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 10,
+                "rotateY": -25,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_focus_center",
+      "start": 4,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "step_3",
+          "instance_id": "belt_2",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 0.95,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "spring(100, 14)"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 10,
+                "rotateY": 5,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 5,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 4.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_1",
+          "instance_id": "belt_0",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0.15,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_2",
+          "instance_id": "belt_1",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0.15,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_4",
+          "instance_id": "belt_3",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0.15,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_5",
+          "instance_id": "belt_4",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0.15,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_resume_belt",
+      "start": 9,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "step_1",
+          "instance_id": "belt_0",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 1,
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.3,
+              "delay": 0.5,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_2",
+          "instance_id": "belt_1",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 1,
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.3,
+              "delay": 0.5,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_3",
+          "instance_id": "belt_2",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 1,
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.3,
+              "delay": 0.5,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_4",
+          "instance_id": "belt_3",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 1,
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.3,
+              "delay": 0.5,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "step_5",
+          "instance_id": "belt_4",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 1,
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.3,
+              "delay": 0.5,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_exit",
+      "start": 13,
+      "duration": 3,
+      "elements": [
+        {
+          "type": "mockup",
+          "instance_id": "belt_0",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.5,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeIn"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.0,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "instance_id": "belt_1",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.5,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeIn"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.0,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "instance_id": "belt_2",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.5,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeIn"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.0,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "instance_id": "belt_3",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.5,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeIn"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.0,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "instance_id": "belt_4",
+          "animations": [
+            {
+              "property": "path_position",
+              "path": "conveyor",
+              "delta_t": 0.5,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeIn"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.0,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Production Ready",
+          "font": "SF Pro Display",
+          "font_size": 44,
+          "font_weight": 700,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

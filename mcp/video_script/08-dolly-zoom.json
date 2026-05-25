@@ -1,0 +1,292 @@
+{
+  "_name": "Cinematic Dolly Zoom",
+  "_style": "Hitchcock-style dolly zoom \u2014 camera pushes in while perspective widens, disorienting depth",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 16,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "desert_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 100,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "hero",
+      "src": "screens/hero.png"
+    },
+    {
+      "id": "detail",
+      "src": "screens/detail.png"
+    },
+    {
+      "id": "action",
+      "src": "screens/action.png"
+    },
+    {
+      "id": "result",
+      "src": "screens/result.png"
+    }
+  ],
+  "background": {
+    "type": "gradient",
+    "angle": 180,
+    "stops": [
+      {
+        "color": "#0c0c1d",
+        "position": 0
+      },
+      {
+        "color": "#1a0a2e",
+        "position": 100
+      }
+    ]
+  },
+  "audio": {
+    "music": {
+      "src": "audio/tension-build.mp3",
+      "volume": 0.6,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/deep-boom.mp3",
+        "at": 2.0,
+        "volume": 0.5
+      },
+      {
+        "src": "audio/deep-boom.mp3",
+        "at": 6.0,
+        "volume": 0.5
+      },
+      {
+        "src": "audio/deep-boom.mp3",
+        "at": 10.0,
+        "volume": 0.5
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_establish",
+      "start": 0,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "hero",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 0.4,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 2000
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 800
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_dolly_in",
+      "start": 4,
+      "duration": 4,
+      "_note": "Classic Vertigo effect: zoom in + perspective widen simultaneously",
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "detail",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 2.0,
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 800
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 2500
+              },
+              "delay": 0,
+              "duration": 3.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "hero",
+              "to_screen": "detail",
+              "delay": 0.5,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_dolly_out",
+      "start": 8,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "action",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 2.0,
+              "to": 0.8,
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 2500
+              },
+              "to": {
+                "rotateX": 10,
+                "rotateY": -15,
+                "perspective": 1000
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "screenshot",
+              "action": "slide",
+              "from_screen": "detail",
+              "to_screen": "action",
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeInOut",
+              "direction": "up"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_final_push",
+      "start": 12,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "result",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "action",
+              "to_screen": "result",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.8,
+              "to": 3.5,
+              "delay": 0.5,
+              "duration": 3.0,
+              "easing": "cubicBezier(0.55, 0, 1, 0.45)"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 2.0,
+              "duration": 1.5,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Look Closer",
+          "font": "SF Pro Display",
+          "font_size": 52,
+          "font_weight": 800,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

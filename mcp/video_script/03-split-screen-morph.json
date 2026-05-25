@@ -1,0 +1,335 @@
+{
+  "_name": "Split Screen Morph",
+  "_style": "Screen splits vertically/horizontally to reveal new content, geometric transitions",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 16,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "blue_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "before",
+      "src": "screens/before.png"
+    },
+    {
+      "id": "after",
+      "src": "screens/after.png"
+    },
+    {
+      "id": "feature_a",
+      "src": "screens/feature_a.png"
+    },
+    {
+      "id": "feature_b",
+      "src": "screens/feature_b.png"
+    },
+    {
+      "id": "final",
+      "src": "screens/final.png"
+    }
+  ],
+  "background": {
+    "type": "solid",
+    "color": "#0a0a0a"
+  },
+  "audio": {
+    "music": {
+      "src": "audio/digital-pulse.mp3",
+      "volume": 0.5,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/slice.mp3",
+        "at": 2.5,
+        "volume": 0.35
+      },
+      {
+        "src": "audio/slice.mp3",
+        "at": 6.0,
+        "volume": 0.35
+      },
+      {
+        "src": "audio/slice.mp3",
+        "at": 9.5,
+        "volume": 0.35
+      },
+      {
+        "src": "audio/slice.mp3",
+        "at": 13.0,
+        "volume": 0.35
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_enter",
+      "start": 0,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "before",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 0.3,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "spring(100, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 20,
+                "rotateY": -30,
+                "perspective": 800
+              },
+              "to": {
+                "rotateX": 5,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 2.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_vertical_split",
+      "start": 3.5,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "after",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "split_reveal",
+              "direction": "vertical",
+              "from_screen": "before",
+              "to_screen": "after",
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "cubicBezier(0.65, 0, 0.35, 1)",
+              "split_gap": 20
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 5,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": -5,
+                "rotateY": 8,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Before \u2192 After",
+          "font": "SF Pro Display",
+          "font_size": 36,
+          "font_weight": 600,
+          "color": "#888888",
+          "position": {
+            "x": 50,
+            "y": 90
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.5,
+              "duration": 0.6,
+              "easing": "easeOut"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 2.8,
+              "duration": 0.5,
+              "easing": "easeIn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_horizontal_split",
+      "start": 7,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "feature_a",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "split_reveal",
+              "direction": "horizontal",
+              "from_screen": "after",
+              "to_screen": "feature_a",
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "cubicBezier(0.65, 0, 0.35, 1)",
+              "split_gap": 15
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 1.15,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.15,
+              "to": 1.0,
+              "delay": 2.0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_diagonal_split",
+      "start": 10.5,
+      "duration": 3,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "feature_b",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "split_reveal",
+              "direction": "diagonal",
+              "angle": 45,
+              "from_screen": "feature_a",
+              "to_screen": "feature_b",
+              "delay": 0,
+              "duration": 1.8,
+              "easing": "cubicBezier(0.65, 0, 0.35, 1)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s5_implode",
+      "start": 13.5,
+      "duration": 2.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "final",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "iris_reveal",
+              "from_screen": "feature_b",
+              "to_screen": "final",
+              "delay": 0,
+              "duration": 1.2,
+              "easing": "easeInOut",
+              "origin": {
+                "x": 50,
+                "y": 50
+              }
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.5,
+              "delay": 1.0,
+              "duration": 1.2,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.5,
+              "duration": 0.8,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Reimagined",
+          "font": "SF Pro Display",
+          "font_size": 48,
+          "font_weight": 700,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.3,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

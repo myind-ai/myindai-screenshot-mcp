@@ -1,0 +1,36 @@
+# Node
+node_modules/
+*.tgz
+
+# Build output
+dist/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+
+# Secrets — defence in depth
+.env
+.env.*
+*.pem
+*.key
+*.p8
+secrets.json
+
+# MCP runtime output
+appscreen-output/
+mcp-output/
+
+# Generated media dumped at repo root
+/*.png
+/*.jpg
+/*.jpeg
+/*.mp4
+
+# Playwright local browser cache
+playwright-report/
+test-results/

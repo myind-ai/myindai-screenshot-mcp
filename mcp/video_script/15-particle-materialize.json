@@ -1,0 +1,242 @@
+{
+  "_name": "Particle Materialization",
+  "_style": "Device forms from scattered particles, sci-fi materialization effect",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 16,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "black_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "assembled",
+      "src": "screens/assembled.png"
+    },
+    {
+      "id": "feature",
+      "src": "screens/feature.png"
+    },
+    {
+      "id": "outro",
+      "src": "screens/outro.png"
+    }
+  ],
+  "background": {
+    "type": "solid",
+    "color": "#050510"
+  },
+  "particles": {
+    "enabled": true,
+    "count": 500,
+    "type": "device_fragments",
+    "color": "#ffffff",
+    "size_range": [
+      1,
+      4
+    ]
+  },
+  "audio": {
+    "music": {
+      "src": "audio/sci-fi-build.mp3",
+      "volume": 0.6,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/particle-gather.mp3",
+        "at": 0,
+        "volume": 0.4
+      },
+      {
+        "src": "audio/materialize.mp3",
+        "at": 3.5,
+        "volume": 0.5
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_scatter",
+      "start": 0,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "particle_system",
+          "target": "mockup",
+          "animations": [
+            {
+              "property": "gather",
+              "from": "random_sphere_r500",
+              "to": "device_shape",
+              "delay": 0.5,
+              "duration": 4.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "assembled",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 3.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.05,
+              "to": 1.0,
+              "delay": 3.5,
+              "duration": 1.2,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_feature_show",
+      "start": 5,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "feature",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "assembled",
+              "to_screen": "feature",
+              "delay": 0.5,
+              "duration": 1.2,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 10,
+                "rotateY": -20,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 10,
+                "rotateY": -20,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": -5,
+                "rotateY": 10,
+                "perspective": 1200
+              },
+              "delay": 2.5,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_disintegrate",
+      "start": 10,
+      "duration": 6,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "outro",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "feature",
+              "to_screen": "outro",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "particle_system",
+          "target": "mockup",
+          "animations": [
+            {
+              "property": "disintegrate",
+              "direction": "upward",
+              "delay": 2.0,
+              "duration": 3.0,
+              "easing": "easeIn",
+              "wind": {
+                "x": 10,
+                "y": -30
+              }
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Built from Nothing",
+          "font": "SF Pro Display",
+          "font_size": 48,
+          "font_weight": 700,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 3.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

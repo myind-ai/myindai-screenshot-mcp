@@ -1,0 +1,543 @@
+{
+  "_name": "Kinetic Typography",
+  "_style": "Bold text drives the narrative, phone appears between text bursts, Apple keynote energy",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 18,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "natural_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "hero",
+      "src": "screens/hero.png"
+    },
+    {
+      "id": "feature",
+      "src": "screens/feature.png"
+    },
+    {
+      "id": "detail",
+      "src": "screens/detail.png"
+    }
+  ],
+  "background": {
+    "type": "solid",
+    "color": "#000000"
+  },
+  "audio": {
+    "music": {
+      "src": "audio/percussive-minimal.mp3",
+      "volume": 0.55,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/text-slam.mp3",
+        "at": 1.0,
+        "volume": 0.4
+      },
+      {
+        "src": "audio/text-slam.mp3",
+        "at": 2.5,
+        "volume": 0.4
+      },
+      {
+        "src": "audio/text-slam.mp3",
+        "at": 4.0,
+        "volume": 0.4
+      },
+      {
+        "src": "audio/text-slam.mp3",
+        "at": 7.0,
+        "volume": 0.4
+      },
+      {
+        "src": "audio/text-slam.mp3",
+        "at": 11.0,
+        "volume": 0.4
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_text_intro",
+      "start": 0,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "text",
+          "content": "SIMPLE.",
+          "font": "SF Pro Display",
+          "font_size": 120,
+          "font_weight": 900,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "scale",
+              "from": 3.0,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 0.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0,
+              "duration": 0.3,
+              "easing": "linear"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.5,
+              "duration": 0.3,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "POWERFUL.",
+          "font": "SF Pro Display",
+          "font_size": 120,
+          "font_weight": 900,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "scale",
+              "from": 3.0,
+              "to": 1.0,
+              "delay": 2.0,
+              "duration": 0.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.0,
+              "duration": 0.3,
+              "easing": "linear"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 3.5,
+              "duration": 0.3,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "YOURS.",
+          "font": "SF Pro Display",
+          "font_size": 120,
+          "font_weight": 900,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "scale",
+              "from": 3.0,
+              "to": 1.0,
+              "delay": 4.0,
+              "duration": 0.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 4.0,
+              "duration": 0.3,
+              "easing": "linear"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_phone_reveal",
+      "start": 5,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "text",
+          "content": "YOURS.",
+          "font": "SF Pro Display",
+          "font_size": 120,
+          "font_weight": 900,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.4,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 50
+              },
+              "to": {
+                "x": 50,
+                "y": 15
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0.6,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "hero",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 130
+              },
+              "to": {
+                "x": 50,
+                "y": 55
+              },
+              "delay": 0.5,
+              "duration": 2.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 1.0,
+              "delay": 0.5,
+              "duration": 2.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0.5,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_feature_callouts",
+      "start": 10,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "feature",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "hero",
+              "to_screen": "feature",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 55
+              },
+              "to": {
+                "x": 35,
+                "y": 50
+              },
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.8,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Real-time Sync",
+          "font": "SF Pro Display",
+          "font_size": 32,
+          "font_weight": 600,
+          "color": "#ffffff",
+          "position": {
+            "x": 72,
+            "y": 30
+          },
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 90,
+                "y": 30
+              },
+              "to": {
+                "x": 72,
+                "y": 30
+              },
+              "delay": 1.0,
+              "duration": 0.8,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.0,
+              "duration": 0.4,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "End-to-end Encrypted",
+          "font": "SF Pro Display",
+          "font_size": 32,
+          "font_weight": 600,
+          "color": "#ffffff",
+          "position": {
+            "x": 72,
+            "y": 45
+          },
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 90,
+                "y": 45
+              },
+              "to": {
+                "x": 72,
+                "y": 45
+              },
+              "delay": 1.4,
+              "duration": 0.8,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.4,
+              "duration": 0.4,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Works Offline",
+          "font": "SF Pro Display",
+          "font_size": 32,
+          "font_weight": 600,
+          "color": "#ffffff",
+          "position": {
+            "x": 72,
+            "y": 60
+          },
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 90,
+                "y": 60
+              },
+              "to": {
+                "x": 72,
+                "y": 60
+              },
+              "delay": 1.8,
+              "duration": 0.8,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.8,
+              "duration": 0.4,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Zero Config",
+          "font": "SF Pro Display",
+          "font_size": 32,
+          "font_weight": 600,
+          "color": "#ffffff",
+          "position": {
+            "x": 72,
+            "y": 75
+          },
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 90,
+                "y": 75
+              },
+              "to": {
+                "x": 72,
+                "y": 75
+              },
+              "delay": 2.2,
+              "duration": 0.8,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.2,
+              "duration": 0.4,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_logo",
+      "start": 15,
+      "duration": 3,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "detail",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "feature",
+              "to_screen": "detail",
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.8,
+              "to": 0.3,
+              "delay": 0.5,
+              "duration": 1.5,
+              "easing": "easeIn"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.0,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "assets/logo.svg",
+          "width": 120,
+          "height": 120,
+          "position": {
+            "x": 50,
+            "y": 45
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 1.0,
+              "delay": 1.5,
+              "duration": 1.0,
+              "easing": "spring(100, 12)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

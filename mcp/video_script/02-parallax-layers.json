@@ -1,0 +1,401 @@
+{
+  "_name": "Parallax Depth Layers",
+  "_style": "Phone floats at center while background layers move at different speeds creating depth",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 16,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "white_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": false,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "home",
+      "src": "screens/home.png"
+    },
+    {
+      "id": "explore",
+      "src": "screens/explore.png"
+    },
+    {
+      "id": "detail",
+      "src": "screens/detail.png"
+    },
+    {
+      "id": "profile",
+      "src": "screens/profile.png"
+    }
+  ],
+  "background": {
+    "type": "layered",
+    "layers": [
+      {
+        "src": "bg/gradient-far.png",
+        "depth": 0.2,
+        "scroll_speed": 0.3
+      },
+      {
+        "src": "bg/shapes-mid.png",
+        "depth": 0.5,
+        "scroll_speed": 0.6
+      },
+      {
+        "src": "bg/particles-near.png",
+        "depth": 0.8,
+        "scroll_speed": 1.0
+      }
+    ],
+    "base_color": "#f0f0f5"
+  },
+  "audio": {
+    "music": {
+      "src": "audio/airy-ambient.mp3",
+      "volume": 0.45,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/soft-pop.mp3",
+        "at": 2.0,
+        "volume": 0.25
+      },
+      {
+        "src": "audio/soft-pop.mp3",
+        "at": 6.0,
+        "volume": 0.25
+      },
+      {
+        "src": "audio/soft-pop.mp3",
+        "at": 10.0,
+        "volume": 0.25
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_float_in",
+      "start": 0,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "home",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 120
+              },
+              "to": {
+                "x": 50,
+                "y": 50
+              },
+              "delay": 0.3,
+              "duration": 2.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 0.85,
+              "delay": 0.3,
+              "duration": 2.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "parallax_trigger",
+          "scroll_amount": 200,
+          "duration": 4
+        }
+      ]
+    },
+    {
+      "id": "s2_drift_right",
+      "start": 4,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "explore",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 50
+              },
+              "to": {
+                "x": 60,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "screenshot",
+              "action": "slide",
+              "from_screen": "home",
+              "to_screen": "explore",
+              "delay": 0.5,
+              "duration": 1.0,
+              "easing": "easeInOut",
+              "direction": "left"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 3,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "parallax_trigger",
+          "scroll_amount": 300,
+          "duration": 4
+        },
+        {
+          "type": "text",
+          "content": "Explore Everything",
+          "font": "SF Pro Display",
+          "font_size": 38,
+          "font_weight": 600,
+          "color": "#1d1d1f",
+          "position": {
+            "x": 22,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.0,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_drift_left",
+      "start": 8,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "detail",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 60,
+                "y": 48
+              },
+              "to": {
+                "x": 40,
+                "y": 50
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "screenshot",
+              "action": "slide",
+              "from_screen": "explore",
+              "to_screen": "detail",
+              "delay": 0.5,
+              "duration": 1.0,
+              "easing": "easeInOut",
+              "direction": "right"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 3,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": -3,
+                "rotateY": 8,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Deep Detail",
+          "font": "SF Pro Display",
+          "font_size": 38,
+          "font_weight": 600,
+          "color": "#1d1d1f",
+          "position": {
+            "x": 78,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.0,
+              "duration": 0.8,
+              "easing": "easeOut"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 3.2,
+              "duration": 0.6,
+              "easing": "easeIn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_center_out",
+      "start": 12,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "profile",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 40,
+                "y": 50
+              },
+              "to": {
+                "x": 50,
+                "y": 50
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "detail",
+              "to_screen": "profile",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": -3,
+                "rotateY": 8,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.85,
+              "to": 0.6,
+              "delay": 2.0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 3.0,
+              "duration": 0.8,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Your Space",
+          "font": "SF Pro Display",
+          "font_size": 44,
+          "font_weight": 700,
+          "color": "#1d1d1f",
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.5,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

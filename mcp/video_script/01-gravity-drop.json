@@ -1,0 +1,459 @@
+{
+  "_name": "Gravity Drop",
+  "_style": "Phone freefalls into frame with realistic bounce physics, screens swap on each bounce",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 60,
+    "duration": 14,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "black_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "splash",
+      "src": "screens/splash.png"
+    },
+    {
+      "id": "home",
+      "src": "screens/home.png"
+    },
+    {
+      "id": "feature",
+      "src": "screens/feature.png"
+    },
+    {
+      "id": "pricing",
+      "src": "screens/pricing.png"
+    }
+  ],
+  "background": {
+    "type": "gradient",
+    "angle": 180,
+    "stops": [
+      {
+        "color": "#000000",
+        "position": 0
+      },
+      {
+        "color": "#111827",
+        "position": 100
+      }
+    ]
+  },
+  "audio": {
+    "music": {
+      "src": "audio/deep-bass.mp3",
+      "volume": 0.55,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/impact.mp3",
+        "at": 1.8,
+        "volume": 0.45
+      },
+      {
+        "src": "audio/impact.mp3",
+        "at": 4.5,
+        "volume": 0.45
+      },
+      {
+        "src": "audio/impact.mp3",
+        "at": 7.5,
+        "volume": 0.45
+      },
+      {
+        "src": "audio/impact.mp3",
+        "at": 10.5,
+        "volume": 0.45
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_freefall",
+      "start": 0,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "splash",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": -50
+              },
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0.2,
+              "duration": 1.6,
+              "easing": "cubicBezier(0.36, 0, 0.66, -0.56)"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 48
+              },
+              "to": {
+                "x": 50,
+                "y": 45
+              },
+              "delay": 1.8,
+              "duration": 0.4,
+              "easing": "cubicBezier(0.34, 1.56, 0.64, 1)"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 45
+              },
+              "to": {
+                "x": 50,
+                "y": 46
+              },
+              "delay": 2.2,
+              "duration": 0.3,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "rotation",
+              "from": 12,
+              "to": 0,
+              "delay": 0,
+              "duration": 1.8,
+              "easing": "easeOut"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0,
+              "duration": 0.4,
+              "easing": "linear"
+            },
+            {
+              "property": "scale",
+              "from": 0.6,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 1.8,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_bounce_swap",
+      "start": 3.5,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "home",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 46
+              },
+              "to": {
+                "x": 50,
+                "y": 30
+              },
+              "delay": 0,
+              "duration": 0.6,
+              "easing": "easeOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 30
+              },
+              "to": {
+                "x": 50,
+                "y": 46
+              },
+              "delay": 0.6,
+              "duration": 0.5,
+              "easing": "cubicBezier(0.34, 1.56, 0.64, 1)"
+            },
+            {
+              "property": "screenshot",
+              "action": "slide",
+              "from_screen": "splash",
+              "to_screen": "home",
+              "delay": 0,
+              "duration": 0.5,
+              "easing": "easeInOut",
+              "direction": "up"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 8,
+                "rotateY": -12,
+                "perspective": 1200
+              },
+              "delay": 0.5,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Lightning Fast",
+          "font": "SF Pro Display",
+          "font_size": 40,
+          "font_weight": 700,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.5,
+              "duration": 0.8,
+              "easing": "easeOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 90
+              },
+              "to": {
+                "x": 50,
+                "y": 85
+              },
+              "delay": 1.5,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_second_bounce",
+      "start": 7,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "feature",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 46
+              },
+              "to": {
+                "x": 50,
+                "y": 25
+              },
+              "delay": 0,
+              "duration": 0.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 25
+              },
+              "to": {
+                "x": 50,
+                "y": 46
+              },
+              "delay": 0.5,
+              "duration": 0.5,
+              "easing": "cubicBezier(0.34, 1.56, 0.64, 1)"
+            },
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "home",
+              "to_screen": "feature",
+              "delay": 0.2,
+              "duration": 0.6,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 8,
+                "rotateY": -12,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": -5,
+                "rotateY": 10,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Powerful Features",
+          "font": "SF Pro Display",
+          "font_size": 40,
+          "font_weight": 700,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.2,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_settle_cta",
+      "start": 10.5,
+      "duration": 3.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "pricing",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "slide",
+              "from_screen": "feature",
+              "to_screen": "pricing",
+              "delay": 0,
+              "duration": 0.8,
+              "easing": "easeInOut",
+              "direction": "up"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": -5,
+                "rotateY": 10,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.75,
+              "delay": 1.5,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 46
+              },
+              "to": {
+                "x": 50,
+                "y": 35
+              },
+              "delay": 1.5,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Download Free",
+          "font": "SF Pro Display",
+          "font_size": 34,
+          "font_weight": 600,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 78
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.2,
+              "duration": 0.8,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.8,
+              "to": 1.0,
+              "delay": 2.2,
+              "duration": 0.8,
+              "easing": "spring(120, 12)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

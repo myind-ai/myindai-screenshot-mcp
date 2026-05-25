@@ -1,0 +1,29 @@
+myindai-screenshot-mcp
+Copyright (c) 2026 Shantanu Bombatkar / myind.ai
+
+This product includes software developed by third parties. Third-party
+licences are reproduced where required by their terms; the canonical
+source is `node_modules/<dep>/LICENSE` after `npm install`.
+
+The renderer (`mcp/frontend/`) is an original implementation written
+from scratch under a clean-room rewrite protocol documented in
+docs/clean-room-rewrite.md. No code from any other open-source or
+proprietary project is included.
+
+3D models and SVG icons under `mcp/frontend/models/` and
+`mcp/frontend/img/` are re-sourced from licensed providers and their
+provenance is logged in ASSETS.md.
+
+Runtime dependencies (current as of v1.0.0-rc.1):
+
+  @anthropic-ai/sdk          MIT  https://github.com/anthropics/anthropic-sdk-typescript
+  @modelcontextprotocol/sdk  MIT  https://github.com/modelcontextprotocol/typescript-sdk
+  playwright                 Apache-2.0  https://github.com/microsoft/playwright
+  sharp                      Apache-2.0  https://github.com/lovell/sharp
+  zod                        MIT  https://github.com/colinhacks/zod
+
+Dev dependencies:
+
+  @types/node                MIT
+  tsx                        MIT
+  typescript                 Apache-2.0

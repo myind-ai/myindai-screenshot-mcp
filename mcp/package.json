@@ -1,0 +1,78 @@
+{
+  "name": "myindai-screenshot-mcp",
+  "version": "1.0.0-rc.1",
+  "description": "MCP server that turns raw app screenshots into polished App Store / Play Store marketing screenshots, A/B variants, localized sets, and product videos. 25 tools across the full ASO pipeline.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Shantanu Bombatkar <sbombatkar@leaptodigital.com>",
+  "maintainers": [
+    "myind.ai <support@myind.ai> (https://github.com/myind-ai)"
+  ],
+  "homepage": "https://github.com/myind-ai/myindai-screenshot-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myind-ai/myindai-screenshot-mcp.git",
+    "directory": "mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/myind-ai/myindai-screenshot-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "app-store",
+    "play-store",
+    "screenshot",
+    "screenshots",
+    "aso",
+    "marketing",
+    "anthropic",
+    "claude",
+    "claude-code",
+    "ios",
+    "android",
+    "playwright",
+    "three.js",
+    "ffmpeg",
+    "headless-browser",
+    "indie",
+    "myind",
+    "myindai"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "myindai-screenshot-mcp": "dist/server.js"
+  },
+  "main": "dist/server.js",
+  "files": [
+    "dist",
+    "frontend",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/server.ts",
+    "start": "node dist/server.js",
+    "smoke": "tsx scripts/smoke.ts",
+    "showcase": "tsx scripts/render-showcase.ts",
+    "install-browser": "playwright install chromium",
+    "prepack": "node scripts/prepack.mjs && tsc",
+    "prepublishOnly": "node scripts/prepack.mjs && tsc"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.1",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "playwright": "^1.59.1",
+    "sharp": "^0.34.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.6.3"
+  }
+}

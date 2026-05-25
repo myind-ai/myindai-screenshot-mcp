@@ -1,0 +1,348 @@
+{
+  "_name": "Neon Pulse",
+  "_style": "Dark mode with glowing neon edges, pulsing light halos, cyberpunk aesthetic",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 60,
+    "duration": 15,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "black_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 0,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "dark_1",
+      "src": "screens/dark_1.png"
+    },
+    {
+      "id": "dark_2",
+      "src": "screens/dark_2.png"
+    },
+    {
+      "id": "dark_3",
+      "src": "screens/dark_3.png"
+    }
+  ],
+  "background": {
+    "type": "solid",
+    "color": "#050505"
+  },
+  "audio": {
+    "music": {
+      "src": "audio/synthwave.mp3",
+      "volume": 0.55,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/electric-hum.mp3",
+        "at": 1.0,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/electric-hum.mp3",
+        "at": 4.0,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/electric-hum.mp3",
+        "at": 8.0,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/electric-hum.mp3",
+        "at": 12.0,
+        "volume": 0.3
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_power_on",
+      "start": 0,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "glow_border",
+          "color": "#00f0ff",
+          "width": 3,
+          "blur": 25,
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0.5,
+              "duration": 1.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "pulse",
+              "frequency": 1.5,
+              "amplitude": 0.3,
+              "delay": 2.0,
+              "duration": 2.0
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "dark_1",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0.8,
+              "duration": 1.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.95,
+              "to": 1.0,
+              "delay": 0.8,
+              "duration": 1.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 52
+              },
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_color_shift",
+      "start": 4,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "glow_border",
+          "animations": [
+            {
+              "property": "color",
+              "from": "#00f0ff",
+              "to": "#ff00ff",
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "color",
+              "from": "#ff00ff",
+              "to": "#ffff00",
+              "delay": 2.0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "dark_2",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "slide",
+              "from_screen": "dark_1",
+              "to_screen": "dark_2",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut",
+              "direction": "left"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 8,
+                "rotateY": -15,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 8,
+                "rotateY": -15,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": -8,
+                "rotateY": 15,
+                "perspective": 1200
+              },
+              "delay": 2.0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_strobe",
+      "start": 8,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "glow_border",
+          "animations": [
+            {
+              "property": "strobe",
+              "colors": [
+                "#00f0ff",
+                "#ff00ff",
+                "#ffff00"
+              ],
+              "speed": 4,
+              "delay": 0,
+              "duration": 3.0
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "dark_3",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "dark_2",
+              "to_screen": "dark_3",
+              "delay": 0,
+              "duration": 1.2,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 1.1,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.1,
+              "to": 1.0,
+              "delay": 2.0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_fade_out",
+      "start": 12,
+      "duration": 3,
+      "elements": [
+        {
+          "type": "glow_border",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.0,
+              "duration": 1.5,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "dark_3",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.8,
+              "delay": 0.5,
+              "duration": 2.0,
+              "easing": "easeIn"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 1.5,
+              "duration": 1.2,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Feel the Pulse",
+          "font": "SF Pro Display",
+          "font_size": 42,
+          "font_weight": 700,
+          "color": "#00f0ff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

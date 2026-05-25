@@ -1,0 +1,311 @@
+{
+  "_name": "Mirror Reflection",
+  "_style": "Device reflected on glossy surface, luxury product photography aesthetic",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 14,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "desert_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 0,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "luxury_1",
+      "src": "screens/luxury_1.png"
+    },
+    {
+      "id": "luxury_2",
+      "src": "screens/luxury_2.png"
+    },
+    {
+      "id": "luxury_3",
+      "src": "screens/luxury_3.png"
+    }
+  ],
+  "background": {
+    "type": "gradient",
+    "angle": 180,
+    "stops": [
+      {
+        "color": "#1a1a1a",
+        "position": 0
+      },
+      {
+        "color": "#0a0a0a",
+        "position": 40
+      },
+      {
+        "color": "#0a0a0a",
+        "position": 60
+      },
+      {
+        "color": "#1a1a1a",
+        "position": 100
+      }
+    ]
+  },
+  "floor": {
+    "enabled": true,
+    "reflection_opacity": 0.25,
+    "blur": 8,
+    "y_position": 75,
+    "gradient_fade": true
+  },
+  "audio": {
+    "music": {
+      "src": "audio/luxury-ambient.mp3",
+      "volume": 0.45,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/glass-tap.mp3",
+        "at": 2.0,
+        "volume": 0.25
+      },
+      {
+        "src": "audio/glass-tap.mp3",
+        "at": 6.0,
+        "volume": 0.25
+      },
+      {
+        "src": "audio/glass-tap.mp3",
+        "at": 10.0,
+        "volume": 0.25
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_emerge",
+      "start": 0,
+      "duration": 4.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "luxury_1",
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 80
+              },
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0.5,
+              "duration": 3.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0.3,
+              "duration": 1.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 30,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 5,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "delay": 0.5,
+              "duration": 3.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_rotate_on_surface",
+      "start": 4.5,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "luxury_2",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "luxury_1",
+              "to_screen": "luxury_2",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 5,
+                "rotateY": -8,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 5,
+                "rotateY": 8,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 4.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 50,
+                "y": 48
+              },
+              "to": {
+                "x": 55,
+                "y": 47
+              },
+              "delay": 0,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 55,
+                "y": 47
+              },
+              "to": {
+                "x": 45,
+                "y": 48
+              },
+              "delay": 2.5,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_lift_away",
+      "start": 9.5,
+      "duration": 4.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "luxury_3",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "luxury_2",
+              "to_screen": "luxury_3",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 45,
+                "y": 48
+              },
+              "to": {
+                "x": 50,
+                "y": 30
+              },
+              "delay": 1.0,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 5,
+                "rotateY": 8,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "delay": 1.0,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.6,
+              "delay": 2.0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 3.0,
+              "duration": 1.2,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Luxury Redefined",
+          "font": "SF Pro Display",
+          "font_size": 44,
+          "font_weight": 300,
+          "color": "#c9a96e",
+          "position": {
+            "x": 50,
+            "y": 70
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

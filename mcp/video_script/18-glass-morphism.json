@@ -1,0 +1,542 @@
+{
+  "_name": "Glass Morphism Layers",
+  "_style": "Frosted glass UI panels float around device, blur layers create depth, modern iOS aesthetic",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 16,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "natural_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "glass_home",
+      "src": "screens/glass_home.png"
+    },
+    {
+      "id": "glass_detail",
+      "src": "screens/glass_detail.png"
+    },
+    {
+      "id": "glass_final",
+      "src": "screens/glass_final.png"
+    }
+  ],
+  "background": {
+    "type": "mesh_gradient",
+    "colors": [
+      "#a855f7",
+      "#ec4899",
+      "#f97316",
+      "#a855f7"
+    ],
+    "animation": {
+      "property": "morph",
+      "speed": 0.2
+    }
+  },
+  "audio": {
+    "music": {
+      "src": "audio/airy-glass.mp3",
+      "volume": 0.45,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/glass-clink.mp3",
+        "at": 2.5,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/glass-clink.mp3",
+        "at": 6.5,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/glass-clink.mp3",
+        "at": 10.5,
+        "volume": 0.3
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_glass_enter",
+      "start": 0,
+      "duration": 4.5,
+      "elements": [
+        {
+          "type": "glass_panel",
+          "width": 250,
+          "height": 160,
+          "blur": 20,
+          "opacity": 0.15,
+          "border_opacity": 0.2,
+          "corner_radius": 24,
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 20,
+                "y": -20
+              },
+              "to": {
+                "x": 20,
+                "y": 30
+              },
+              "delay": 0.0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 0.15,
+              "delay": 0.0,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "width": 250,
+          "height": 160,
+          "blur": 20,
+          "opacity": 0.15,
+          "border_opacity": 0.2,
+          "corner_radius": 24,
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 80,
+                "y": -20
+              },
+              "to": {
+                "x": 80,
+                "y": 25
+              },
+              "delay": 0.4,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 0.15,
+              "delay": 0.4,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "width": 250,
+          "height": 160,
+          "blur": 20,
+          "opacity": 0.15,
+          "border_opacity": 0.2,
+          "corner_radius": 24,
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 15,
+                "y": -20
+              },
+              "to": {
+                "x": 15,
+                "y": 70
+              },
+              "delay": 0.8,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 0.15,
+              "delay": 0.8,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "width": 250,
+          "height": 160,
+          "blur": 20,
+          "opacity": 0.15,
+          "border_opacity": 0.2,
+          "corner_radius": 24,
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 75,
+                "y": -20
+              },
+              "to": {
+                "x": 75,
+                "y": 75
+              },
+              "delay": 1.2000000000000002,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 0.15,
+              "delay": 1.2000000000000002,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "glass_home",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 0.9,
+              "delay": 0.8,
+              "duration": 2.5,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0.6,
+              "duration": 1.2,
+              "easing": "easeOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 15,
+                "rotateY": -10,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 3,
+                "rotateY": -5,
+                "perspective": 1200
+              },
+              "delay": 0.8,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_panels_orbit",
+      "start": 4.5,
+      "duration": 5.5,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "glass_detail",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "glass_home",
+              "to_screen": "glass_detail",
+              "delay": 0.5,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 3,
+                "rotateY": -5,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": -3,
+                "rotateY": 5,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 5.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "float",
+              "amplitude": 6,
+              "frequency": 0.25,
+              "delay": 0,
+              "duration": 5.5
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "instance_id": "gp_0",
+          "animations": [
+            {
+              "property": "orbit",
+              "center": {
+                "x": 50,
+                "y": 48
+              },
+              "radius": 280,
+              "start_angle": 0,
+              "speed": 0.15,
+              "delay": 0,
+              "duration": 5.5
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "instance_id": "gp_1",
+          "animations": [
+            {
+              "property": "orbit",
+              "center": {
+                "x": 50,
+                "y": 48
+              },
+              "radius": 280,
+              "start_angle": 90,
+              "speed": 0.15,
+              "delay": 0,
+              "duration": 5.5
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "instance_id": "gp_2",
+          "animations": [
+            {
+              "property": "orbit",
+              "center": {
+                "x": 50,
+                "y": 48
+              },
+              "radius": 280,
+              "start_angle": 180,
+              "speed": 0.15,
+              "delay": 0,
+              "duration": 5.5
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "instance_id": "gp_3",
+          "animations": [
+            {
+              "property": "orbit",
+              "center": {
+                "x": 50,
+                "y": 48
+              },
+              "radius": 280,
+              "start_angle": 270,
+              "speed": 0.15,
+              "delay": 0,
+              "duration": 5.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_converge",
+      "start": 10,
+      "duration": 6,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "glass_final",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "glass_detail",
+              "to_screen": "glass_final",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.9,
+              "to": 0.7,
+              "delay": 2.0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 4.0,
+              "duration": 1.5,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "instance_id": "gp_0",
+          "animations": [
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 0.15,
+              "to": 0,
+              "delay": 1.5,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "instance_id": "gp_1",
+          "animations": [
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 0.15,
+              "to": 0,
+              "delay": 1.5,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "instance_id": "gp_2",
+          "animations": [
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 0.15,
+              "to": 0,
+              "delay": 1.5,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "glass_panel",
+          "instance_id": "gp_3",
+          "animations": [
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 0.15,
+              "to": 0,
+              "delay": 1.5,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Clarity Through Glass",
+          "font": "SF Pro Display",
+          "font_size": 44,
+          "font_weight": 600,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 3.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

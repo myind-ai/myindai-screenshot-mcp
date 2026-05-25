@@ -1,0 +1,319 @@
+{
+  "_name": "Macro Lens Detail",
+  "_style": "Extreme close-ups on UI details \u2014 buttons, icons, micro-interactions, then pull back",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 16,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "natural_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 80,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "full_ui",
+      "src": "screens/full_ui.png"
+    },
+    {
+      "id": "detail_1",
+      "src": "screens/detail_1.png"
+    },
+    {
+      "id": "detail_2",
+      "src": "screens/detail_2.png"
+    }
+  ],
+  "background": {
+    "type": "solid",
+    "color": "#ffffff"
+  },
+  "audio": {
+    "music": {
+      "src": "audio/precision-piano.mp3",
+      "volume": 0.4,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/focus-click.mp3",
+        "at": 2.0,
+        "volume": 0.25
+      },
+      {
+        "src": "audio/focus-click.mp3",
+        "at": 6.0,
+        "volume": 0.25
+      },
+      {
+        "src": "audio/focus-click.mp3",
+        "at": 10.0,
+        "volume": 0.25
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_extreme_zoom",
+      "start": 0,
+      "duration": 4,
+      "_note": "Start zoomed 5x into a specific button/icon area, shallow DOF",
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "full_ui",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 5.0,
+              "to": 5.0,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 35,
+                "y": 40
+              },
+              "to": {
+                "x": 38,
+                "y": 42
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "depth_of_field",
+              "focus_distance": 0,
+              "aperture": 1.4,
+              "delay": 0,
+              "duration": 4
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Every pixel, intentional",
+          "font": "SF Pro Display",
+          "font_size": 28,
+          "font_weight": 400,
+          "color": "#888888",
+          "position": {
+            "x": 50,
+            "y": 90
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.5,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_rack_focus",
+      "start": 4,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "full_ui",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 5.0,
+              "to": 3.0,
+              "delay": 0,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 38,
+                "y": 42
+              },
+              "to": {
+                "x": 55,
+                "y": 60
+              },
+              "delay": 0,
+              "duration": 2.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "depth_of_field",
+              "from_aperture": 1.4,
+              "to_aperture": 2.8,
+              "delay": 0,
+              "duration": 2.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_pull_back",
+      "start": 8,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "full_ui",
+          "animations": [
+            {
+              "property": "scale",
+              "from": 3.0,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "position",
+              "from": {
+                "x": 55,
+                "y": 60
+              },
+              "to": {
+                "x": 50,
+                "y": 50
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "depth_of_field",
+              "from_aperture": 2.8,
+              "to_aperture": 16,
+              "delay": 0,
+              "duration": 3.0
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 8,
+                "rotateY": -10,
+                "perspective": 1200
+              },
+              "delay": 1.5,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s4_hero_shot",
+      "start": 12,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "full_ui",
+          "animations": [
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 8,
+                "rotateY": -10,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.8,
+              "delay": 2.0,
+              "duration": 1.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 3.0,
+              "duration": 0.8,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Obsessively Crafted",
+          "font": "SF Pro Display",
+          "font_size": 48,
+          "font_weight": 700,
+          "color": "#1d1d1f",
+          "position": {
+            "x": 50,
+            "y": 50
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.5,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

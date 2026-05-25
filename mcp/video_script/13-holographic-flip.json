@@ -1,0 +1,326 @@
+{
+  "_name": "Holographic Flip",
+  "_style": "Iridescent holographic reflections on device, rainbow light shifts, premium feel",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "duration": 15,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "natural_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 60,
+      "offset": {
+        "x": 0,
+        "y": 40
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "holo_1",
+      "src": "screens/holo_1.png"
+    },
+    {
+      "id": "holo_2",
+      "src": "screens/holo_2.png"
+    },
+    {
+      "id": "holo_3",
+      "src": "screens/holo_3.png"
+    }
+  ],
+  "background": {
+    "type": "solid",
+    "color": "#0a0a0a"
+  },
+  "audio": {
+    "music": {
+      "src": "audio/ethereal-chime.mp3",
+      "volume": 0.5,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/shimmer.mp3",
+        "at": 2.0,
+        "volume": 0.4
+      },
+      {
+        "src": "audio/shimmer.mp3",
+        "at": 5.5,
+        "volume": 0.4
+      },
+      {
+        "src": "audio/shimmer.mp3",
+        "at": 9.0,
+        "volume": 0.4
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_holo_reveal",
+      "start": 0,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "holographic_overlay",
+          "intensity": 0.4,
+          "animations": [
+            {
+              "property": "hue_rotate",
+              "from": 0,
+              "to": 360,
+              "delay": 0,
+              "duration": 5.0,
+              "easing": "linear"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 0.4,
+              "delay": 0.5,
+              "duration": 2.0,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "holo_1",
+          "animations": [
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": -60,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "easeOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.6,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "cubicBezier(0.16, 1, 0.3, 1)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_flip_with_holo",
+      "start": 5,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "holographic_overlay",
+          "animations": [
+            {
+              "property": "hue_rotate",
+              "from": 360,
+              "to": 720,
+              "delay": 0,
+              "duration": 5.0,
+              "easing": "linear"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "holo_2",
+          "animations": [
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 0,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 180,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "cubicBezier(0.45, 0, 0.15, 1)"
+            },
+            {
+              "property": "screenshot",
+              "action": "swap",
+              "from_screen": "holo_1",
+              "to_screen": "holo_2",
+              "delay": 0.75,
+              "duration": 0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 0,
+                "rotateY": 180,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 5,
+                "rotateY": 360,
+                "perspective": 1200
+              },
+              "delay": 1.5,
+              "duration": 1.5,
+              "easing": "cubicBezier(0.45, 0, 0.15, 1)"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": 5,
+                "rotateY": 360,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": -5,
+                "rotateY": 375,
+                "perspective": 1200
+              },
+              "delay": 3.0,
+              "duration": 2.0,
+              "easing": "easeInOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_holo_exit",
+      "start": 10,
+      "duration": 5,
+      "elements": [
+        {
+          "type": "holographic_overlay",
+          "animations": [
+            {
+              "property": "intensity",
+              "from": 0.4,
+              "to": 0.8,
+              "delay": 0,
+              "duration": 2.0,
+              "easing": "easeIn"
+            },
+            {
+              "property": "intensity",
+              "from": 0.8,
+              "to": 0,
+              "delay": 2.0,
+              "duration": 2.0,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "holo_3",
+          "animations": [
+            {
+              "property": "screenshot",
+              "action": "crossfade",
+              "from_screen": "holo_2",
+              "to_screen": "holo_3",
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "tilt3d",
+              "from": {
+                "rotateX": -5,
+                "rotateY": 375,
+                "perspective": 1200
+              },
+              "to": {
+                "rotateX": 0,
+                "rotateY": 420,
+                "perspective": 1200
+              },
+              "delay": 0,
+              "duration": 3.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.6,
+              "delay": 2.5,
+              "duration": 2.0,
+              "easing": "easeIn"
+            },
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0,
+              "delay": 3.5,
+              "duration": 1.2,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Premium by Nature",
+          "font": "SF Pro Display",
+          "font_size": 44,
+          "font_weight": 700,
+          "color": "#ffffff",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 3.0,
+              "duration": 1.0,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,642 @@
+{
+  "_name": "Stacked Card Cascade",
+  "_style": "Screens stack like cards then cascade/fan outward, card deck metaphor",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 60,
+    "duration": 14,
+    "format": "mp4",
+    "codec": "h264",
+    "bitrate": "12M"
+  },
+  "mockup": {
+    "device": "iphone-16-pro-max",
+    "frame_color": "white_titanium",
+    "show_notch": true,
+    "screen_radius": 55,
+    "shadow": {
+      "enabled": true,
+      "color": "rgba(0,0,0,0.4)",
+      "blur": 40,
+      "offset": {
+        "x": 0,
+        "y": 15
+      },
+      "spread": -10
+    },
+    "reflection": {
+      "enabled": true,
+      "opacity": 0.15,
+      "blur": 12
+    }
+  },
+  "screens": [
+    {
+      "id": "card_1",
+      "src": "screens/card_1.png"
+    },
+    {
+      "id": "card_2",
+      "src": "screens/card_2.png"
+    },
+    {
+      "id": "card_3",
+      "src": "screens/card_3.png"
+    },
+    {
+      "id": "card_4",
+      "src": "screens/card_4.png"
+    },
+    {
+      "id": "card_5",
+      "src": "screens/card_5.png"
+    }
+  ],
+  "background": {
+    "type": "gradient",
+    "angle": 180,
+    "stops": [
+      {
+        "color": "#f5f5f7",
+        "position": 0
+      },
+      {
+        "color": "#e5e5ea",
+        "position": 100
+      }
+    ]
+  },
+  "audio": {
+    "music": {
+      "src": "audio/playful-pop.mp3",
+      "volume": 0.45,
+      "fade_in": 1.5,
+      "fade_out": 2.0
+    },
+    "sfx": [
+      {
+        "src": "audio/card-deal.mp3",
+        "at": 1.0,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/card-deal.mp3",
+        "at": 2.0,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/card-deal.mp3",
+        "at": 3.0,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/card-deal.mp3",
+        "at": 4.0,
+        "volume": 0.3
+      },
+      {
+        "src": "audio/card-deal.mp3",
+        "at": 5.0,
+        "volume": 0.3
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "id": "s1_stack_build",
+      "start": 0,
+      "duration": 6,
+      "_note": "Cards fly in one by one and stack with slight offset",
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "card_1",
+          "instance_id": "card_0",
+          "z_index": 5,
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 120,
+                "y": 50
+              },
+              "to": {
+                "x": 46,
+                "y": 44
+              },
+              "delay": 0.0,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "rotation",
+              "from": 15,
+              "to": -4,
+              "delay": 0.0,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 0.8,
+              "delay": 0.0,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0.0,
+              "duration": 0.3,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_2",
+          "instance_id": "card_1",
+          "z_index": 4,
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 120,
+                "y": 50
+              },
+              "to": {
+                "x": 48,
+                "y": 46
+              },
+              "delay": 0.8,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "rotation",
+              "from": 15,
+              "to": -2,
+              "delay": 0.8,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 0.78,
+              "delay": 0.8,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 0.8,
+              "duration": 0.3,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_3",
+          "instance_id": "card_2",
+          "z_index": 3,
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 120,
+                "y": 50
+              },
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 1.6,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "rotation",
+              "from": 15,
+              "to": 0,
+              "delay": 1.6,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 0.76,
+              "delay": 1.6,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 1.6,
+              "duration": 0.3,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_4",
+          "instance_id": "card_3",
+          "z_index": 2,
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 120,
+                "y": 50
+              },
+              "to": {
+                "x": 52,
+                "y": 50
+              },
+              "delay": 2.4000000000000004,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "rotation",
+              "from": 15,
+              "to": 2,
+              "delay": 2.4000000000000004,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 0.74,
+              "delay": 2.4000000000000004,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.4000000000000004,
+              "duration": 0.3,
+              "easing": "easeOut"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_5",
+          "instance_id": "card_4",
+          "z_index": 1,
+          "animations": [
+            {
+              "property": "position",
+              "from": {
+                "x": 120,
+                "y": 50
+              },
+              "to": {
+                "x": 54,
+                "y": 52
+              },
+              "delay": 3.2,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "rotation",
+              "from": 15,
+              "to": 4,
+              "delay": 3.2,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "scale",
+              "from": 0.5,
+              "to": 0.7200000000000001,
+              "delay": 3.2,
+              "duration": 1.0,
+              "easing": "spring(120, 14)"
+            },
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 3.2,
+              "duration": 0.3,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2_fan_out",
+      "start": 6,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "card_1",
+          "instance_id": "card_0",
+          "animations": [
+            {
+              "property": "rotation",
+              "from": -4,
+              "to": -24,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 34,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_2",
+          "instance_id": "card_1",
+          "animations": [
+            {
+              "property": "rotation",
+              "from": -2,
+              "to": -12,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 42,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_3",
+          "instance_id": "card_2",
+          "animations": [
+            {
+              "property": "rotation",
+              "from": 0,
+              "to": 0,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 50,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_4",
+          "instance_id": "card_3",
+          "animations": [
+            {
+              "property": "rotation",
+              "from": 2,
+              "to": 12,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 58,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_5",
+          "instance_id": "card_4",
+          "animations": [
+            {
+              "property": "rotation",
+              "from": 4,
+              "to": 24,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            },
+            {
+              "property": "position",
+              "from": null,
+              "to": {
+                "x": 66,
+                "y": 48
+              },
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(80, 12)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3_highlight_center",
+      "start": 10,
+      "duration": 4,
+      "elements": [
+        {
+          "type": "mockup",
+          "screen": "card_1",
+          "instance_id": "card_0",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0.2,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 2.5,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_2",
+          "instance_id": "card_1",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0.2,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 2.5,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_3",
+          "instance_id": "card_2",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 0.78,
+              "to": 1.0,
+              "delay": 0,
+              "duration": 1.5,
+              "easing": "spring(100, 12)),"
+            },
+            {
+              "property": "rotation",
+              "from": 0,
+              "to": 0,
+              "delay": 0,
+              "duration": 0.5,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "scale",
+              "from": 1.0,
+              "to": 0.5,
+              "delay": 2.5,
+              "duration": 1.2,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_4",
+          "instance_id": "card_3",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0.2,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 2.5,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "mockup",
+          "screen": "card_5",
+          "instance_id": "card_4",
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 1,
+              "to": 0.2,
+              "delay": 0,
+              "duration": 1.0,
+              "easing": "easeInOut"
+            },
+            {
+              "property": "opacity",
+              "from": null,
+              "to": 0,
+              "delay": 2.5,
+              "duration": 1.0,
+              "easing": "easeIn"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Pick Your Favourite",
+          "font": "SF Pro Display",
+          "font_size": 38,
+          "font_weight": 600,
+          "color": "#1d1d1f",
+          "position": {
+            "x": 50,
+            "y": 85
+          },
+          "animations": [
+            {
+              "property": "opacity",
+              "from": 0,
+              "to": 1,
+              "delay": 2.0,
+              "duration": 0.8,
+              "easing": "easeOut"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
