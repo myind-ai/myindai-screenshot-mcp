@@ -152,6 +152,17 @@ After v1.0.0 ships (full feature parity with the v0.5.1 surface), the next four 
 
 The server-renderer contract is **4 functions on `window.__mcp`** — see [docs/architecture.md](docs/architecture.md) for details. That contract is what makes the clean-room rewrite feasible.
 
+## Tools reference + Claude Code skill
+
+- **[TOOLS.md](TOOLS.md)** — every tool (25 surfaces), its inputs/outputs, current status, example calls, env vars, and resource URIs (`myindai://presets`, `myindai://design-guide`, …). This is the reference.
+- **[skills/myindai-screenshot/SKILL.md](skills/myindai-screenshot/SKILL.md)** — drop-in Claude Code skill that turns the tools into a guided ASO workflow (brand discovery → render → iterate → set/variants/sizes, 2D & 3D paths, CLI fallback). One-liner install:
+
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/myind-ai/myindai-screenshot-mcp/main/skills/install.sh | sh
+  ```
+
+  After install, say things like *"make App Store screenshots for my app"* and the skill activates. See [skills/README.md](skills/README.md) for other clients (Cursor / Windsurf / Cline).
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Important: contributors to the renderer must read [docs/clean-room-rewrite.md](docs/clean-room-rewrite.md) first.
