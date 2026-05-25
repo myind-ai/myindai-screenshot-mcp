@@ -87,7 +87,7 @@ export async function readResource(uri: string): Promise<{
         {
           namespaces,
           tools: ["memory_read", "memory_write"],
-          note: "Default namespace is the cwd basename slug. Override APPSCREEN_MEMORY_DIR to change the on-disk location.",
+          note: "Default namespace is the cwd basename slug. Override MCP_MEMORY_DIR to change the on-disk location.",
         },
         null,
         2
@@ -761,10 +761,10 @@ text: {
 - ✅ \`suggest_headlines\` — vision-driven ACTION VERB + DESCRIPTOR suggestions ranked by what's actually visible on screen, with per-suggestion confidence + screen-summary sanity check.
 - ✅ \`render_multi_size\` — one set → 6.9"/6.7"/6.5"/5.5" all rendered with correct dimensions; brand colour shared across sizes.
 - ✅ \`render_ab_variants\` — render the same set in 2-8 brand-colour variants and a master contact-sheet for paid-acquisition picking. Curated default palette covers warm/cool/vivid/premium/editorial.
-- ✅ \`memory_read\` / \`memory_write\` + \`appscreen://memory\` resource — typed JSON store under ~/.appscreen-mcp/memory/<namespace>.json. Eliminates the "Claude has to remember to write the right markdown file" failure mode.
+- ✅ \`memory_read\` / \`memory_write\` + \`appscreen://memory\` resource — typed JSON store under ~/.myindai-screenshot-mcp/memory/<namespace>.json. Eliminates the "Claude has to remember to write the right markdown file" failure mode.
 - ✅ \`render_localized_set\` — render a set in N languages with auto-translated headlines (Anthropic), per-script font fallbacks (CJK, Devanagari, Arabic, Hebrew), and RTL alignment flips.
 - ✅ \`list_assets\` / \`get_asset\` + \`appscreen://assets\` resource — bundled accent shapes, decorations, device tints, and patterns. SVGs that tint via \`tint_color\` and drop into renders.
-- ✅ \`record_telemetry\` / \`list_telemetry\` — optional JSONL hook under ~/.appscreen-mcp/telemetry/ to correlate template/colour/headline → impressions/installs over time.
+- ✅ \`record_telemetry\` / \`list_telemetry\` — optional JSONL hook under ~/.myindai-screenshot-mcp/telemetry/ to correlate template/colour/headline → impressions/installs over time.
 - ✅ \`render_play_store_set\` — Android Play Store mode (1080×1920 default, 9:16) with an Android-tuned recipe and Samsung device frame.
 - ✅ \`clone_reference\` — programmatic version of the \`clone_template\` prompt: vision → render decision JSON in one call, drops straight into \`render_screenshot\`.
 

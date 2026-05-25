@@ -25,7 +25,22 @@ See [CHANGELOG.md](CHANGELOG.md) for the full ship plan.
 
 ## Install (end user)
 
-The fastest path — let your MCP client install it via `npx`:
+The fastest path — let your MCP client install it via `npx`. **No API key needed** for the v1.0.0-rc.1 tool surface (everything you can use today is renderer-only). The (later) vision tools will use [MCP sampling](docs/llm-strategy.md) — i.e. they ask **your** MCP client's LLM to do the completion, so you never have to give the server its own key.
+
+```json
+{
+  "mcpServers": {
+    "myindai-screenshot": {
+      "command": "npx",
+      "args": ["-y", "myindai-screenshot-mcp"]
+    }
+  }
+}
+```
+
+Restart your MCP client. The server self-installs Chromium for the headless renderer the first time it's needed.
+
+If you really want to bypass MCP sampling and have the server call Anthropic directly (e.g. you're running in a CI context with no MCP client at the other end), you can opt in with `ANTHROPIC_API_KEY`:
 
 ```json
 {
@@ -33,15 +48,13 @@ The fastest path — let your MCP client install it via `npx`:
     "myindai-screenshot": {
       "command": "npx",
       "args": ["-y", "myindai-screenshot-mcp"],
-      "env": {
-        "ANTHROPIC_API_KEY": "sk-ant-..."
-      }
+      "env": { "ANTHROPIC_API_KEY": "sk-ant-..." }
     }
   }
 }
 ```
 
-Restart your MCP client. The server self-installs Chromium for the headless renderer the first time it's needed.
+This is optional and not the recommended path — see [docs/llm-strategy.md](docs/llm-strategy.md) for the rationale.
 
 For video tools (`render_video`, `auto_video`, etc., shipping in v1.1.0) you'll also need `ffmpeg` + `ffprobe`:
 
@@ -66,16 +79,12 @@ myindai-screenshot-mcp version : 1.0.0-rc.1
 node                            : v22.14.0
 platform                        : darwin (arm64)
 PATH                            : /usr/bin:/bin
-ANTHROPIC_API_KEY               : ✅ set (vision tools enabled)
-FFMPEG_PATH                     : <unset — will probe>
-FFPROBE_PATH                    : <unset — will probe>
-
----- ffmpeg / ffprobe resolution ----
-ffmpeg                          : ✅ /opt/homebrew/bin/ffmpeg
-ffprobe                         : ✅ /opt/homebrew/bin/ffprobe
+ANTHROPIC_API_KEY               : unset (rc.1: not required — uses MCP sampling)
+FFMPEG_PATH                     : unset (rc.1: not required — no video tools yet)
+FFPROBE_PATH                    : unset (rc.1: not required — no video tools yet)
 ```
 
-Any ❌ tells you exactly what to fix.
+Any ❌ tells you exactly what to fix. `unset` for the optional fields is fine in rc.1.
 
 ## Tools (v1.0.0-rc.1 → v1.1.0 roadmap)
 

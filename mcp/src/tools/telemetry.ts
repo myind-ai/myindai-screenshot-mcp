@@ -7,12 +7,12 @@ import { z } from "zod";
 // headline) so users can correlate App Store impressions → installs and learn
 // what converts in their niche. Optional — opt-in via the tool, not background.
 //
-// Persistent JSONL log under ~/.appscreen-mcp/telemetry/<app_id>.jsonl
+// Persistent JSONL log under ~/.myindai-screenshot-mcp/telemetry/<app_id>.jsonl
 
 function defaultLogDir(): string {
-  const env = process.env.APPSCREEN_TELEMETRY_DIR;
+  const env = process.env.MCP_TELEMETRY_DIR;
   if (env && env.trim()) return path.resolve(env);
-  return path.join(os.homedir(), ".appscreen-mcp", "telemetry");
+  return path.join(os.homedir(), ".myindai-screenshot-mcp", "telemetry");
 }
 
 function safeAppId(id: string): string {

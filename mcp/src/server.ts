@@ -39,7 +39,7 @@ import { RESOURCES, readResource } from "./resources.js";
 import { PROMPTS, getPrompt } from "./prompts.js";
 
 const server = new Server(
-  { name: "appscreen-mcp", version: "0.5.1" },
+  { name: "myindai-screenshot-mcp", version: "1.0.0-rc.1" },
   {
     capabilities: {
       tools: {},
@@ -631,8 +631,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       description:
         "Read first-class skill memory. Replaces the 'Claude has to remember to write the right markdown file' failure mode " +
         "with a typed JSON store. Default `namespace` is auto-derived from the working directory's basename. Pass `key` to fetch " +
-        "one entry; omit it to get the full store. Persisted under ~/.appscreen-mcp/memory/<namespace>.json (override with " +
-        "APPSCREEN_MEMORY_DIR).",
+        "one entry; omit it to get the full store. Persisted under ~/.myindai-screenshot-mcp/memory/<namespace>.json (override with " +
+        "MCP_MEMORY_DIR).",
       inputSchema: {
         type: "object",
         properties: {
@@ -662,8 +662,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       name: "record_telemetry",
       description:
         "Optional conversion-telemetry hook. Record what shipped (template, brand colour, headlines, set size, language, domain) " +
-        "and — once measured — impressions/installs/conversion rate. Stored as JSONL at ~/.appscreen-mcp/telemetry/<app_id>.jsonl " +
-        "(override with APPSCREEN_TELEMETRY_DIR). Use this to learn what converts in YOUR niche over time.",
+        "and — once measured — impressions/installs/conversion rate. Stored as JSONL at ~/.myindai-screenshot-mcp/telemetry/<app_id>.jsonl " +
+        "(override with MCP_TELEMETRY_DIR). Use this to learn what converts in YOUR niche over time.",
       inputSchema: {
         type: "object",
         properties: {
@@ -1229,34 +1229,36 @@ server.setRequestHandler(GetPromptRequestSchema, async (req) => {
 // ----------------------------------------------------------------------------
 
 async function doctor() {
-  process.stdout.write(`[appscreen-mcp] doctor — diagnosing the environment as the MCP process sees it\n\n`);
-  process.stdout.write(`appscreen-mcp version : 0.5.1\n`);
-  process.stdout.write(`node                  : ${process.version}\n`);
-  process.stdout.write(`platform              : ${process.platform} (${process.arch})\n`);
-  process.stdout.write(`cwd                   : ${process.cwd()}\n`);
-  process.stdout.write(`PATH                  : ${process.env.PATH || "<empty>"}\n`);
+  process.stdout.write(`[myindai-screenshot-mcp] doctor — diagnosing the environment as the MCP process sees it\n\n`);
+  process.stdout.write(`myindai-screenshot-mcp version : 1.0.0-rc.1\n`);
+  process.stdout.write(`node                            : ${process.version}\n`);
+  process.stdout.write(`platform                        : ${process.platform} (${process.arch})\n`);
+  process.stdout.write(`cwd                             : ${process.cwd()}\n`);
+  process.stdout.write(`PATH                            : ${process.env.PATH || "<empty>"}\n`);
   process.stdout.write(
-    `ANTHROPIC_API_KEY     : ${process.env.ANTHROPIC_API_KEY ? "✅ set (vision tools enabled)" : "❌ unset (vision tools fall back)"}\n`
+    `ANTHROPIC_API_KEY               : ${process.env.ANTHROPIC_API_KEY ? "set (direct-API fallback active)" : "unset (rc.1 default — uses your MCP client's LLM via sampling when needed)"}\n`
   );
-  process.stdout.write(`ANTHROPIC_MODEL       : ${process.env.ANTHROPIC_MODEL || "claude-opus-4-7 (default)"}\n`);
-  process.stdout.write(`FFMPEG_PATH           : ${process.env.FFMPEG_PATH || "<unset — will probe>"}\n`);
-  process.stdout.write(`FFPROBE_PATH          : ${process.env.FFPROBE_PATH || "<unset — will probe>"}\n`);
+  process.stdout.write(`ANTHROPIC_MODEL                 : ${process.env.ANTHROPIC_MODEL || "claude-opus-4-7 (default, only used if direct-API fallback is active)"}\n`);
+  process.stdout.write(`FFMPEG_PATH                     : ${process.env.FFMPEG_PATH || "unset (rc.1: video tools not enabled — will probe in v1.1.0)"}\n`);
+  process.stdout.write(`FFPROBE_PATH                    : ${process.env.FFPROBE_PATH || "unset (rc.1: video tools not enabled — will probe in v1.1.0)"}\n`);
   process.stdout.write(`\n`);
-  process.stdout.write(`---- ffmpeg / ffprobe resolution ----\n`);
+  process.stdout.write(`---- ffmpeg / ffprobe resolution (informational; not required in rc.1) ----\n`);
   try {
     const ff = await ensureFfmpeg();
-    process.stdout.write(`ffmpeg                : ✅ ${ff}\n`);
+    process.stdout.write(`ffmpeg                          : ✅ ${ff}\n`);
   } catch (e: any) {
-    process.stdout.write(`ffmpeg                : ❌ ${e?.message || e}\n`);
+    process.stdout.write(`ffmpeg                          : (not found) ${e?.message || e}\n`);
   }
   try {
     const fp = await ensureFfprobe();
-    process.stdout.write(`ffprobe               : ✅ ${fp}\n`);
+    process.stdout.write(`ffprobe                         : ✅ ${fp}\n`);
   } catch (e: any) {
-    process.stdout.write(`ffprobe               : ❌ ${e?.message || e}\n`);
+    process.stdout.write(`ffprobe                         : (not found) ${e?.message || e}\n`);
   }
   process.stdout.write(`\n`);
-  process.stdout.write(`If anything above is ❌, the README has fixes (set FFMPEG_PATH or extend PATH in the MCP launch env).\n`);
+  process.stdout.write(`v1.0.0-rc.1 status:\n`);
+  process.stdout.write(`  - LLM not required for any working tool. Vision tools land in v1.0.0-rc.3 via MCP sampling.\n`);
+  process.stdout.write(`  - ffmpeg / ffprobe not required for any working tool. Video tools land in v1.1.0.\n`);
 }
 
 async function main() {
@@ -1266,27 +1268,29 @@ async function main() {
     return;
   }
   if (args.includes("--version") || args.includes("-v")) {
-    process.stdout.write(`appscreen-mcp 0.5.1\n`);
+    process.stdout.write(`myindai-screenshot-mcp 1.0.0-rc.1\n`);
     return;
   }
   if (args.includes("--help") || args.includes("-h")) {
     process.stdout.write(
       [
-        `appscreen-mcp 0.5.1 — App Store / Play Store screenshot + video MCP`,
+        `myindai-screenshot-mcp 1.0.0-rc.1 — App Store / Play Store screenshot + video MCP`,
         ``,
         `Usage:`,
-        `  appscreen-mcp           start the stdio MCP server (default — what MCP clients invoke)`,
-        `  appscreen-mcp --doctor  diagnose the environment (PATH, ffmpeg, ANTHROPIC_API_KEY)`,
-        `  appscreen-mcp --version print version`,
-        `  appscreen-mcp --help    print this help`,
+        `  myindai-screenshot-mcp           start the stdio MCP server (default — what MCP clients invoke)`,
+        `  myindai-screenshot-mcp --doctor  diagnose the environment (PATH, ffmpeg, sampling availability)`,
+        `  myindai-screenshot-mcp --version print version`,
+        `  myindai-screenshot-mcp --help    print this help`,
         ``,
-        `Env:`,
-        `  ANTHROPIC_API_KEY  required for vision tools (detect_empty_state, suggest_headlines, clone_reference, render_localized_set)`,
-        `  ANTHROPIC_MODEL    override the Anthropic model (default: claude-opus-4-7)`,
-        `  FFMPEG_PATH        absolute path to ffmpeg, when not in the inherited PATH`,
-        `  FFPROBE_PATH       absolute path to ffprobe (only needed if it sits outside the FFMPEG_PATH dir)`,
-        `  APPSCREEN_DEBUG    when set, log resolver decisions to stderr`,
-        `  APPSCREEN_MEMORY_DIR / APPSCREEN_TELEMETRY_DIR  override on-disk locations`,
+        `Env (all optional — rc.1 has zero required env vars):`,
+        `  ANTHROPIC_API_KEY      CI / non-interactive escape hatch. Calls Anthropic directly instead of asking the client.`,
+        `                         For interactive MCP-client use, do NOT set this — the server uses sampling.`,
+        `  ANTHROPIC_MODEL        Override the Anthropic model (default: claude-opus-4-7). Only honoured when ANTHROPIC_API_KEY is set.`,
+        `  FFMPEG_PATH            Absolute path to ffmpeg, when not in the inherited PATH. Only needed once video tools land (v1.1.0).`,
+        `  FFPROBE_PATH           Absolute path to ffprobe (only needed if it sits outside the FFMPEG_PATH dir).`,
+        `  MCP_DEBUG              When set, log resolver decisions to stderr.`,
+        `  MCP_MEMORY_DIR         Override the on-disk memory location (default: ~/.myindai-screenshot-mcp/memory/).`,
+        `  MCP_TELEMETRY_DIR      Override the on-disk telemetry location (default: ~/.myindai-screenshot-mcp/telemetry/).`,
         ``,
       ].join("\n")
     );
@@ -1295,10 +1299,10 @@ async function main() {
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  process.stderr.write("[appscreen-mcp] ready (stdio) — tools, resources, prompts\n");
+  process.stderr.write("[myindai-screenshot-mcp] ready (stdio) — tools, resources, prompts\n");
 }
 
 main().catch((err) => {
-  process.stderr.write(`[appscreen-mcp] fatal: ${err?.message || err}\n`);
+  process.stderr.write(`[myindai-screenshot-mcp] fatal: ${err?.message || err}\n`);
   process.exit(1);
 });

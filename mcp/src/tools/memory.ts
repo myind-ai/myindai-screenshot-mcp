@@ -7,15 +7,15 @@ import { z } from "zod";
 // the right markdown file" failure mode with a typed JSON store accessible via
 // MCP tools and resources. Stored in the user-level XDG-style location:
 //
-//   ~/.appscreen-mcp/memory/<namespace>.json
+//   ~/.myindai-screenshot-mcp/memory/<namespace>.json
 //
 // `namespace` defaults to a project key derived from the cwd so multiple apps
 // don't stomp on each other's state.
 
 function defaultStoreDir(): string {
-  const env = process.env.APPSCREEN_MEMORY_DIR;
+  const env = process.env.MCP_MEMORY_DIR;
   if (env && env.trim()) return path.resolve(env);
-  return path.join(os.homedir(), ".appscreen-mcp", "memory");
+  return path.join(os.homedir(), ".myindai-screenshot-mcp", "memory");
 }
 
 function defaultNamespace(): string {

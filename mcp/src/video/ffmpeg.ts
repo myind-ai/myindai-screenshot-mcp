@@ -115,8 +115,8 @@ export async function ensureFfmpeg(): Promise<string> {
   const found = await resolveBinary("ffmpeg", process.env.FFMPEG_PATH, COMMON_FFMPEG_PATHS);
   if (found) {
     cachedFfmpegPath = found;
-    if (process.env.APPSCREEN_DEBUG)
-      process.stderr.write(`[appscreen-mcp] resolved ffmpeg at ${found}\n`);
+    if (process.env.MCP_DEBUG)
+      process.stderr.write(`[myindai-screenshot-mcp] resolved ffmpeg at ${found}\n`);
     return found;
   }
 
@@ -146,8 +146,8 @@ export async function ensureFfprobe(): Promise<string> {
   const found = await resolveBinary("ffprobe", process.env.FFPROBE_PATH, COMMON_FFPROBE_PATHS);
   if (found) {
     cachedFfprobePath = found;
-    if (process.env.APPSCREEN_DEBUG)
-      process.stderr.write(`[appscreen-mcp] resolved ffprobe at ${found}\n`);
+    if (process.env.MCP_DEBUG)
+      process.stderr.write(`[myindai-screenshot-mcp] resolved ffprobe at ${found}\n`);
     return found;
   }
 
@@ -229,7 +229,7 @@ export async function encodeFrames(
         msg.includes("Operation not supported"));
     if (!looksLikeCodecMissing) throw e;
     process.stderr.write(
-      `[appscreen-mcp] ${codec} encode failed (${msg.slice(0, 120)}…). Retrying with libx264.\n`
+      `[myindai-screenshot-mcp] ${codec} encode failed (${msg.slice(0, 120)}…). Retrying with libx264.\n`
     );
     await runEncode(buffered, { ...opts, videoCodec: "libx264" });
   }
