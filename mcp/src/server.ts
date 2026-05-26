@@ -39,7 +39,7 @@ import { RESOURCES, readResource } from "./resources.js";
 import { PROMPTS, getPrompt } from "./prompts.js";
 
 const server = new Server(
-  { name: "myindai-screenshot-mcp", version: "1.0.0-rc.2" },
+  { name: "myindai-screenshot-mcp", version: "1.0.0-rc.3" },
   {
     capabilities: {
       tools: {},
@@ -1230,7 +1230,7 @@ server.setRequestHandler(GetPromptRequestSchema, async (req) => {
 
 async function doctor() {
   process.stdout.write(`[myindai-screenshot-mcp] doctor — diagnosing the environment as the MCP process sees it\n\n`);
-  process.stdout.write(`myindai-screenshot-mcp version : 1.0.0-rc.2\n`);
+  process.stdout.write(`myindai-screenshot-mcp version : 1.0.0-rc.3\n`);
   process.stdout.write(`node                            : ${process.version}\n`);
   process.stdout.write(`platform                        : ${process.platform} (${process.arch})\n`);
   process.stdout.write(`cwd                             : ${process.cwd()}\n`);
@@ -1256,9 +1256,46 @@ async function doctor() {
     process.stdout.write(`ffprobe                         : (not found) ${e?.message || e}\n`);
   }
   process.stdout.write(`\n`);
-  process.stdout.write(`v1.0.0-rc.2 status:\n`);
+  process.stdout.write(`v1.0.0-rc.3 status:\n`);
   process.stdout.write(`  - LLM not required for any working tool. Vision tools land in v1.0.0-rc.3 via MCP sampling.\n`);
   process.stdout.write(`  - ffmpeg / ffprobe not required for any working tool. Video tools land in v1.1.0.\n`);
+}
+
+async function installSkill(): Promise<void> {
+  const fs = await import("node:fs/promises");
+  const path = await import("node:path");
+  const os = await import("node:os");
+  const url = await import("node:url");
+  const here = path.dirname(url.fileURLToPath(import.meta.url));
+  // Probe candidate skill source paths — works for both dev (pkg/../skills) and
+  // published layout (pkg/skills) since prepack copies skills/ into mcp/.
+  const candidates = [
+    path.resolve(here, "..", "skills", "myindai-screenshot"),
+    path.resolve(here, "..", "..", "skills", "myindai-screenshot"),
+  ];
+  let src: string | null = null;
+  for (const c of candidates) {
+    try {
+      await fs.access(path.join(c, "SKILL.md"));
+      src = c;
+      break;
+    } catch {}
+  }
+  if (!src) {
+    process.stderr.write(
+      `[myindai-screenshot-mcp] --install-skill: could not locate the bundled skill folder. Tried:\n  ${candidates.join("\n  ")}\n`
+    );
+    process.exit(1);
+  }
+  const dst = path.join(os.homedir(), ".claude", "skills", "myindai-screenshot");
+  await fs.rm(dst, { recursive: true, force: true });
+  await fs.cp(src, dst, { recursive: true });
+  process.stdout.write(`✅ skill installed at ${dst}\n`);
+  process.stdout.write(`\nNext: make sure the MCP server is also configured. Either:\n`);
+  process.stdout.write(`  claude mcp add myindai-screenshot -- npx -y myindai-screenshot-mcp\n`);
+  process.stdout.write(`or paste this into your MCP client's mcp_config.json:\n`);
+  process.stdout.write(`  { "mcpServers": { "myindai-screenshot": { "command": "npx", "args": ["-y", "myindai-screenshot-mcp"] } } }\n`);
+  process.stdout.write(`\nThen restart your client and say e.g. "make App Store screenshots for my app".\n`);
 }
 
 async function main() {
@@ -1267,20 +1304,25 @@ async function main() {
     await doctor();
     return;
   }
+  if (args.includes("--install-skill") || args.includes("install-skill")) {
+    await installSkill();
+    return;
+  }
   if (args.includes("--version") || args.includes("-v")) {
-    process.stdout.write(`myindai-screenshot-mcp 1.0.0-rc.2\n`);
+    process.stdout.write(`myindai-screenshot-mcp 1.0.0-rc.3\n`);
     return;
   }
   if (args.includes("--help") || args.includes("-h")) {
     process.stdout.write(
       [
-        `myindai-screenshot-mcp 1.0.0-rc.2 — App Store / Play Store screenshot + video MCP`,
+        `myindai-screenshot-mcp 1.0.0-rc.3 — App Store / Play Store screenshot + video MCP`,
         ``,
         `Usage:`,
-        `  myindai-screenshot-mcp           start the stdio MCP server (default — what MCP clients invoke)`,
-        `  myindai-screenshot-mcp --doctor  diagnose the environment (PATH, ffmpeg, sampling availability)`,
-        `  myindai-screenshot-mcp --version print version`,
-        `  myindai-screenshot-mcp --help    print this help`,
+        `  myindai-screenshot-mcp                start the stdio MCP server (default — what MCP clients invoke)`,
+        `  myindai-screenshot-mcp --doctor       diagnose the environment (PATH, ffmpeg, sampling availability)`,
+        `  myindai-screenshot-mcp --install-skill  copy the bundled Claude Code skill into ~/.claude/skills/`,
+        `  myindai-screenshot-mcp --version      print version`,
+        `  myindai-screenshot-mcp --help         print this help`,
         ``,
         `Env (all optional — rc.1 has zero required env vars):`,
         `  ANTHROPIC_API_KEY      CI / non-interactive escape hatch. Calls Anthropic directly instead of asking the client.`,
