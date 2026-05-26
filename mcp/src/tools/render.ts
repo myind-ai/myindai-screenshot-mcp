@@ -174,6 +174,7 @@ export async function renderScreenshot(input: RenderToolInput): Promise<{
   image_base64?: string;
   path?: string;
   decisions: Record<string, unknown>;
+  warnings?: string[];
 }> {
   const { dataUrl, buffer, name } = await loadImage(input.image);
 
@@ -197,20 +198,22 @@ export async function renderScreenshot(input: RenderToolInput): Promise<{
     }
   }
 
+  // Issue #2 fix: only include optional fields when defined — `undefined`
+  // values silently overrode template defaults on the frontend's spread merge.
   const decision: Record<string, unknown> = {
     headline: input.headline ?? "",
     subheadline: input.subheadline ?? "",
     mode: input.mode ?? "2d",
-    positionPreset: input.position_preset,
-    backgroundPreset: bg,
     accentColor: input.accent_color ?? "#667eea",
     textColor: input.text_color ?? "light",
-    background: input.background,
-    screenshot: input.screenshot,
-    text: input.text,
-    reference_image: input.reference_image,
     reasoning: "client-supplied",
   };
+  if (input.position_preset !== undefined) decision.positionPreset = input.position_preset;
+  if (bg !== undefined) decision.backgroundPreset = bg;
+  if (input.background !== undefined) decision.background = input.background;
+  if (input.screenshot !== undefined) decision.screenshot = input.screenshot;
+  if (input.text !== undefined) decision.text = input.text;
+  if (input.reference_image !== undefined) decision.reference_image = input.reference_image;
 
   const png = await render({
     dataUrl,
@@ -220,14 +223,31 @@ export async function renderScreenshot(input: RenderToolInput): Promise<{
     decision,
   });
 
+  // Issue #3 fix: surface a clear "3D not yet implemented" warning instead of
+  // silently rendering a 2D fallback. Real 3D ships when .glb device frames
+  // land in a later rc.
+  const warnings: string[] = [];
+  if (input.mode === "3d") {
+    warnings.push(
+      "3D mode requested but the renderer ships a 2D placeholder in this release. " +
+        "The output above is a 2D rounded-rectangle device shell. Real WebGL device " +
+        "frames (use3D / device3D / rotation3D) ship when .glb device models land — " +
+        "see ASSETS.md."
+    );
+  }
+
   if (input.output_path) {
     const abs = path.isAbsolute(input.output_path)
       ? input.output_path
       : path.resolve(process.cwd(), input.output_path);
     await fs.mkdir(path.dirname(abs), { recursive: true });
     await fs.writeFile(abs, png);
-    return { path: abs, decisions: decision };
+    return warnings.length
+      ? { path: abs, decisions: decision, warnings }
+      : { path: abs, decisions: decision };
   }
 
-  return { image_base64: png.toString("base64"), decisions: decision };
+  return warnings.length
+    ? { image_base64: png.toString("base64"), decisions: decision, warnings }
+    : { image_base64: png.toString("base64"), decisions: decision };
 }

@@ -49,4 +49,5 @@ export interface GenerateOutput {
   image_base64?: string;
   path?: string;
   decisions: AIDecision;
+  warnings?: string[];
 }

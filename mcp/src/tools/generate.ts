@@ -45,6 +45,31 @@ export async function generateScreenshot(
   if (input.device === "iphone-2d") decision = { ...decision, mode: "2d" };
   else if (input.device === "iphone-3d") decision = { ...decision, mode: "3d" };
 
+  // Issue #8 fix: surface a clear warning when the user gave us hints / AI
+  // intent but no AI was actually available. Previously buried as a
+  // `reasoning: "deterministic fallback..."` string the user almost never read.
+  const warnings: string[] = [];
+  const usedFallback =
+    typeof (decision as { reasoning?: string }).reasoning === "string" &&
+    /deterministic|fallback|unavailable/i.test((decision as { reasoning?: string }).reasoning || "");
+  if (usedFallback && !process.env.ANTHROPIC_API_KEY) {
+    warnings.push(
+      "AI layer is disabled — `ANTHROPIC_API_KEY` is not set and the MCP client " +
+        "did not advertise sampling capability. Your `hints` and `app_name` were " +
+        "ignored; the output uses deterministic defaults. Set `ANTHROPIC_API_KEY` " +
+        "in the server env, or use a sampling-capable MCP client (Claude Desktop, " +
+        "Claude Code, Cursor, Windsurf, Cline) and AI features turn on automatically. " +
+        "See docs/llm-strategy.md."
+    );
+  }
+  if (input.device === "iphone-3d" || decision.mode === "3d") {
+    warnings.push(
+      "3D mode requested but the renderer ships a 2D placeholder in this release. " +
+        "The output above is a 2D rounded-rectangle device shell. Real WebGL device " +
+        "frames (use3D / device3D / rotation3D) ship when .glb device models land."
+    );
+  }
+
   const png = await render({
     dataUrl,
     name,
@@ -58,10 +83,14 @@ export async function generateScreenshot(
       : path.resolve(process.cwd(), input.output_path);
     await fs.mkdir(path.dirname(abs), { recursive: true });
     await fs.writeFile(abs, png);
-    return { path: abs, decisions: decision };
+    return warnings.length
+      ? ({ path: abs, decisions: decision, warnings } as GenerateOutput)
+      : { path: abs, decisions: decision };
   }
 
-  return { image_base64: png.toString("base64"), decisions: decision };
+  return warnings.length
+    ? ({ image_base64: png.toString("base64"), decisions: decision, warnings } as GenerateOutput)
+    : { image_base64: png.toString("base64"), decisions: decision };
 }
 
 function sniffMime(buf: Buffer): string | null {

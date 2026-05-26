@@ -52,10 +52,18 @@ const PRESET_CATALOG = {
   fontWeights: ["400", "500", "600", "700", "800"],
   backgroundTypes: ["solid", "gradient", "blurred-screenshot"],
   imageFits: ["contain", "cover"],
-  outputDevices: ["iphone-15-pro-max", "iphone-6.7", "google-pixel-8"],
+  // Issue #10 fix: every device key the server's tools/render.ts schema enum
+  // advertises MUST resolve here. Apple's App Store-required pixel dimensions:
+  outputDevices: [
+    "iphone-6.9", "iphone-6.7", "iphone-6.5", "iphone-5.5",
+    "iphone-15-pro-max", "google-pixel-8",
+  ],
   canvasDimensions: {
-    "iphone-15-pro-max": { width: 1290, height: 2796 },
+    "iphone-6.9":        { width: 1320, height: 2868 },
     "iphone-6.7":        { width: 1290, height: 2796 },
+    "iphone-6.5":        { width: 1242, height: 2688 },
+    "iphone-5.5":        { width: 1242, height: 2208 },
+    "iphone-15-pro-max": { width: 1290, height: 2796 },
     "google-pixel-8":    { width: 1080, height: 2400 },
   },
 };
@@ -86,30 +94,52 @@ TEMPLATES.set("clean-minimal", {
 
     const image = await loadInputImage(spec.dataUrl);
 
+    // Issues #4 + #6: read screenshot overrides + positionPreset.
+    const sx = decision.screenshot && typeof decision.screenshot === "object" ? decision.screenshot : {};
+    const positionPreset = decision.positionPreset
+      && PRESET_CATALOG.positionPresetDetails[decision.positionPreset]
+      ? PRESET_CATALOG.positionPresetDetails[decision.positionPreset]
+      : null;
+
+    // Issue #5: read text overrides.
+    const tx = decision.text && typeof decision.text === "object" ? decision.text : {};
+
     const layout = computeLayout({
       canvasW: width,
       canvasH: height,
-      textPosition: decision.textPosition,
+      textPosition: tx.position || decision.textPosition,
       hasHeadline: Boolean(decision.headline),
       hasSubheadline: Boolean(decision.subheadline),
+      screenshotOverride: sx,
+      positionPreset,
+      textOffsetY: tx.offsetY,
     });
 
-    drawDevice(canvasCtx, three, layout.device);
-    drawScreenshot(canvasCtx, image, layout.screen, decision.imageFit);
+    drawDevice(canvasCtx, three, layout.device, sx);
+    drawScreenshot(canvasCtx, image, layout.screen, decision.imageFit, sx, layout.device);
 
     if (decision.headline) {
       drawText(canvasCtx, {
         text: decision.headline,
         x: width / 2,
         y: layout.headlineY,
-        maxWidth: width * 0.86,
-        fontSize: Math.round(width * 0.062),
-        fontWeight: decision.fontWeight,
-        font,
-        color: decision._isDark ? "#ffffff" : "#0a0a0a",
-        align: "center",
+        maxWidth: width * (tx.headlineMaxWidthPct ? tx.headlineMaxWidthPct / 100 : 0.86),
+        fontSize: scaleText(width, tx.headlineSize, 0.062),
+        fontWeight: tx.headlineWeight || decision.fontWeight,
+        font: tx.headlineFont || tx.font || font,
+        color: tx.headlineColor || (decision._isLight ? "#ffffff" : "#0a0a0a"),
+        align: tx.headlineTextAlign || "center",
         baseline: "middle",
-        lineHeight: 1.1,
+        lineHeight: tx.lineHeight || 1.1,
+        letterSpacing: typeof tx.headlineLetterSpacing === "number" ? tx.headlineLetterSpacing : 0,
+        italic: Boolean(tx.headlineItalic),
+        underline: Boolean(tx.headlineUnderline),
+        highlight: tx.headlineHighlightWord ? {
+          word: tx.headlineHighlightWord,
+          color: tx.headlineHighlightColor || "#fde68a",
+          style: tx.headlineHighlightStyle || "color",  // "color" | "pill"
+          pillTextColor: tx.headlineHighlightPillTextColor,
+        } : null,
       });
     }
     if (decision.subheadline) {
@@ -118,19 +148,31 @@ TEMPLATES.set("clean-minimal", {
         x: width / 2,
         y: layout.subheadlineY,
         maxWidth: width * 0.82,
-        fontSize: Math.round(width * 0.034),
-        fontWeight: "500",
-        font,
-        color: decision._isDark ? "#dddddd" : "#3a3a3a",
-        align: "center",
+        fontSize: scaleText(width, tx.subheadlineSize, 0.034),
+        fontWeight: tx.subheadlineWeight || "500",
+        font: tx.subheadlineFont || tx.font || font,
+        color: tx.subheadlineColor || (decision._isLight ? "#dddddd" : "#3a3a3a"),
+        align: tx.subheadlineTextAlign || "center",
         baseline: "middle",
-        lineHeight: 1.25,
+        lineHeight: tx.lineHeight || 1.25,
+        letterSpacing: 0,
       });
     }
 
-    debug(`rendered clean-minimal ${width}×${height} (locale=${locale.tag}, bg=${decision._bgKind})`);
+    debug(`rendered clean-minimal ${width}×${height} (locale=${locale.tag}, bg=${decision._bgKind}, preset=${decision.positionPreset || "none"}, scale=${sx.scale ?? "auto"})`);
   },
 });
+
+// scaleText: design-skill semantics — text.headlineSize/subheadlineSize are
+// authored against a 1320 px-wide canvas. We scale proportionally to the
+// actual canvas width. If no override is given, fall back to a fraction of
+// the canvas width (the legacy behaviour).
+function scaleText(canvasW, authoredPx, fallbackFraction) {
+  if (typeof authoredPx === "number" && authoredPx > 0) {
+    return Math.round((authoredPx / 1320) * canvasW);
+  }
+  return Math.round(canvasW * fallbackFraction);
+}
 
 // --- Helpers --------------------------------------------------------------
 
@@ -165,15 +207,19 @@ function normalizeDecision(raw, defaults) {
     bgKind = `preset:${bgPreset}`;
   }
 
-  // Text dark/light. `textColor` ("light"|"dark") is what render_screenshot
-  // sends. The pre-fix code looked at decision.mode and compared to "dark" —
-  // but mode is "2d"|"3d" in the server contract, so the dark text path was
-  // never taken. Defaults to light (white-text) when explicit dark not set.
+  // Text light/dark. Semantic per issue #7: `text_color: "light"` means
+  // **render light (white) text** — for use on dark backgrounds. The old code
+  // compared `decision.mode === "dark"` but mode is "2d"|"3d" on the server
+  // contract, so the path was effectively dead.
+  // Default: light text (the bundled preset gradients are medium-to-dark, so
+  // white headlines are the more useful default than black).
   const textColorRaw = d.textColor || d.text_color;
-  let isDark = false;
-  if (textColorRaw === "dark") isDark = true;
-  else if (textColorRaw === "light") isDark = false;
-  else if (d.mode === "dark" || d.mode === "light") isDark = d.mode === "dark";
+  let isLight;
+  if (textColorRaw === "light") isLight = true;
+  else if (textColorRaw === "dark") isLight = false;
+  else if (d.mode === "dark") isLight = true;  // legacy: mode=dark theme → light text
+  else if (d.mode === "light") isLight = false; // legacy: mode=light theme → dark text
+  else isLight = true;
 
   // Nested text overrides (server passes input.text through verbatim).
   const tx = d.text && typeof d.text === "object" ? d.text : {};
@@ -189,7 +235,7 @@ function normalizeDecision(raw, defaults) {
     _bgPreset: bgPreset,
     _bgObject: bgObject,
     _bgKind: bgKind,
-    _isDark: isDark,
+    _isLight: isLight,
   };
 }
 
@@ -223,7 +269,7 @@ function paintBackground(c, decision, w, h) {
   }
 
   // (c) fallback solid.
-  c.fillStyle = decision._isDark ? "#0a0a0a" : "#ffffff";
+  c.fillStyle = decision._isLight ? "#0a0a0a" : "#ffffff";
   c.fillRect(0, 0, w, h);
 }
 
@@ -290,77 +336,160 @@ async function loadInputImage(dataUrl) {
   });
 }
 
-function computeLayout({ canvasW, canvasH, textPosition, hasHeadline, hasSubheadline }) {
-  // Spec §3: keep layout symmetric and centred. Headline above device when
-  // textPosition === "top", below when "bottom", overlaid when "center".
+// Issues #4 + #6: layout now consumes screenshot.{scale,x,y,rotation} and the
+// positionPreset's pre-canned offsets/rotation. Authoring semantics match the
+// design-templates skill: scale/x/y are **percentages**; x=50/y=80 anchors the
+// device CENTER at (50% canvas width, 80% canvas height); scale=73 means the
+// device width is 73% of canvas width.
+function computeLayout({ canvasW, canvasH, textPosition, hasHeadline, hasSubheadline, screenshotOverride, positionPreset, textOffsetY }) {
+  const sx = screenshotOverride || {};
+  const pp = positionPreset || null;
   const margin = Math.round(canvasW * 0.065);
   const headlineBlockH = (hasHeadline ? Math.round(canvasW * 0.10) : 0)
     + (hasSubheadline ? Math.round(canvasW * 0.055) : 0)
     + (hasHeadline || hasSubheadline ? Math.round(canvasW * 0.04) : 0);
 
-  let deviceY;
+  // Base text Y (still respects textPosition / textOffsetY %).
   let headlineY = 0;
   let subheadlineY = 0;
-
   if (textPosition === "bottom") {
-    deviceY = margin * 1.2;
     headlineY = canvasH - headlineBlockH - margin * 0.6;
     subheadlineY = headlineY + Math.round(canvasW * 0.08);
   } else if (textPosition === "center") {
-    deviceY = margin * 2.2;
     headlineY = canvasH * 0.45;
     subheadlineY = headlineY + Math.round(canvasW * 0.07);
   } else {
-    // top (default)
     headlineY = margin * 0.9 + (hasHeadline ? Math.round(canvasW * 0.055) : 0);
     subheadlineY = headlineY + Math.round(canvasW * 0.082);
-    deviceY = headlineBlockH + margin * 1.4;
+  }
+  // Text overrides — design-skill says offsetY is a percentage (−100..100).
+  if (typeof textOffsetY === "number") {
+    const shift = (textOffsetY / 100) * canvasH;
+    headlineY += shift;
+    subheadlineY += shift;
   }
 
-  const deviceWidth = Math.round(canvasW * 0.78);
-  const deviceHeight = Math.round(deviceWidth * 2.165); // ~ iPhone 15 Pro Max aspect
-  const deviceX = Math.round((canvasW - deviceWidth) / 2);
+  // Device sizing. Override > preset > default 78%.
+  const defaultScalePct = 78;
+  const scalePct = typeof sx.scale === "number"
+    ? sx.scale
+    : pp ? defaultScalePct * pp.scale : defaultScalePct;
+  const deviceWidth = Math.round(canvasW * (scalePct / 100));
+  const deviceHeight = Math.round(deviceWidth * 2.165); // iPhone 6.x aspect
 
-  // Inset the screen inside the device frame; tunable per-device in rc.2.
+  // Device CENTER position. Override.x/y are percentages of canvas.
+  // Preset.x/y are pixel offsets from canvas center.
+  const centerX = typeof sx.x === "number"
+    ? (sx.x / 100) * canvasW
+    : (canvasW / 2) + (pp ? pp.x : 0);
+  // Default device-center Y depends on text position so device + text don't
+  // overlap. If user supplied y override, use that absolute placement instead.
+  let centerY;
+  if (typeof sx.y === "number") {
+    centerY = (sx.y / 100) * canvasH;
+  } else {
+    let baseDeviceTop;
+    if (textPosition === "bottom") baseDeviceTop = margin * 1.2;
+    else if (textPosition === "center") baseDeviceTop = margin * 2.2;
+    else baseDeviceTop = headlineBlockH + margin * 1.4;
+    centerY = baseDeviceTop + deviceHeight / 2 + (pp ? pp.y : 0);
+  }
+
+  const deviceX = Math.round(centerX - deviceWidth / 2);
+  const deviceY = Math.round(centerY - deviceHeight / 2);
+
+  // Rotation: explicit override wins; otherwise preset.
+  const rotationDeg = typeof sx.rotation === "number"
+    ? sx.rotation
+    : pp ? pp.rotation : 0;
+
+  // Inset the screen inside the device frame; tunable per-device in rc.x.
+  const cornerRadius = typeof sx.cornerRadius === "number"
+    ? sx.cornerRadius
+    : Math.round(deviceWidth * 0.085);
   const bezel = Math.round(deviceWidth * 0.025);
   const screen = {
     x: deviceX + bezel,
     y: deviceY + bezel,
     w: deviceWidth - bezel * 2,
     h: deviceHeight - bezel * 2,
+    radius: Math.max(cornerRadius - bezel, 0),
   };
 
   return {
-    device: { x: deviceX, y: deviceY, w: deviceWidth, h: deviceHeight },
+    device: { x: deviceX, y: deviceY, w: deviceWidth, h: deviceHeight, rotation: rotationDeg, cornerRadius },
     screen,
     headlineY,
     subheadlineY,
   };
 }
 
-function drawDevice(c, three, frame) {
-  // Soft shadow under the device.
+function drawDevice(c, three, frame, screenshotOverride) {
+  const sx = screenshotOverride || {};
   c.save();
-  c.shadowColor = "rgba(0, 0, 0, 0.22)";
-  c.shadowBlur = 60;
-  c.shadowOffsetY = 30;
+  // Rotation around device center.
+  if (frame.rotation) {
+    const cx = frame.x + frame.w / 2;
+    const cy = frame.y + frame.h / 2;
+    c.translate(cx, cy);
+    c.rotate((frame.rotation * Math.PI) / 180);
+    c.translate(-cx, -cy);
+  }
+
+  // Shadow override.
+  const shadow = (sx.shadow && typeof sx.shadow === "object") ? sx.shadow : null;
+  if (shadow && shadow.enabled !== false) {
+    c.shadowColor = hexWithAlpha(shadow.color || "#000000", typeof shadow.opacity === "number" ? shadow.opacity / 100 : 0.22);
+    c.shadowBlur = typeof shadow.blur === "number" ? shadow.blur : 60;
+    c.shadowOffsetX = typeof shadow.x === "number" ? shadow.x : 0;
+    c.shadowOffsetY = typeof shadow.y === "number" ? shadow.y : 30;
+  } else {
+    c.shadowColor = "rgba(0, 0, 0, 0.22)";
+    c.shadowBlur = 60;
+    c.shadowOffsetY = 30;
+  }
   three.drawDeviceFrame(c, {
     x: frame.x,
     y: frame.y,
     width: frame.w,
     height: frame.h,
-    cornerRadius: Math.round(frame.w * 0.085),
+    cornerRadius: frame.cornerRadius,
     fill: "#0a0a0a",
   });
+
+  // Glow override — second pass with a coloured halo.
+  const glow = (sx.glow && typeof sx.glow === "object") ? sx.glow : null;
+  if (glow && glow.enabled !== false && (typeof glow.intensity !== "number" || glow.intensity > 0)) {
+    c.shadowColor = hexWithAlpha(glow.color || "#ffffff", typeof glow.intensity === "number" ? glow.intensity / 100 : 0.5);
+    c.shadowBlur = typeof glow.size === "number" ? glow.size : 100;
+    c.shadowOffsetX = 0;
+    c.shadowOffsetY = 0;
+    three.drawDeviceFrame(c, {
+      x: frame.x,
+      y: frame.y,
+      width: frame.w,
+      height: frame.h,
+      cornerRadius: frame.cornerRadius,
+      fill: "#0a0a0a",
+    });
+  }
+
   c.restore();
 }
 
-function drawScreenshot(c, image, screen, fit) {
+function drawScreenshot(c, image, screen, fit, screenshotOverride, frame) {
   c.save();
-  roundRectPath(c, screen.x, screen.y, screen.w, screen.h, Math.round(screen.w * 0.065));
+  // Match device rotation so screenshot stays inside the frame.
+  if (frame && frame.rotation) {
+    const cx = frame.x + frame.w / 2;
+    const cy = frame.y + frame.h / 2;
+    c.translate(cx, cy);
+    c.rotate((frame.rotation * Math.PI) / 180);
+    c.translate(-cx, -cy);
+  }
+  roundRectPath(c, screen.x, screen.y, screen.w, screen.h, screen.radius || Math.round(screen.w * 0.065));
   c.clip();
 
-  // Compute draw rect based on `fit`.
   const iw = image.naturalWidth;
   const ih = image.naturalHeight;
   let dw, dh, dx, dy;
@@ -381,18 +510,96 @@ function drawScreenshot(c, image, screen, fit) {
   c.restore();
 }
 
+// Issue #5: drawText now honours letter spacing, italic, underline, and the
+// headlineHighlightWord ("color" or "pill" style). Fields not covered:
+// headlineGradient + headlineStrikethrough land in rc.x.
 function drawText(c, opts) {
-  const { text, x, y, maxWidth, fontSize, fontWeight, font, color, align, baseline, lineHeight } = opts;
+  const { text, x, y, maxWidth, fontSize, fontWeight, font, color, align, baseline, lineHeight,
+          letterSpacing, italic, underline, highlight } = opts;
   c.save();
   c.fillStyle = color;
-  c.font = `${fontWeight} ${fontSize}px "${font}", "Inter", system-ui, sans-serif`;
+  const styleParts = [];
+  if (italic) styleParts.push("italic");
+  styleParts.push(String(fontWeight));
+  styleParts.push(`${fontSize}px`);
+  c.font = `${styleParts.join(" ")} "${font}", "Inter", system-ui, sans-serif`;
   c.textAlign = align;
   c.textBaseline = baseline;
+  if (typeof c.letterSpacing === "string") {
+    // Chromium ≥ 99 supports CSS letter-spacing on canvas.
+    c.letterSpacing = `${letterSpacing || 0}px`;
+  }
+
   const lines = wrapText(c, text, maxWidth);
   const lh = Math.round(fontSize * lineHeight);
   const startY = y - ((lines.length - 1) * lh) / 2;
-  lines.forEach((line, i) => c.fillText(line, x, startY + i * lh));
+
+  lines.forEach((line, i) => {
+    const yy = startY + i * lh;
+    if (highlight && line.toLowerCase().includes(highlight.word.toLowerCase())) {
+      drawLineWithHighlight(c, line, x, yy, align, highlight, fontSize, color);
+    } else {
+      c.fillText(line, x, yy);
+    }
+    if (underline) {
+      const w = c.measureText(line).width;
+      const ux = align === "center" ? x - w / 2 : align === "right" ? x - w : x;
+      const uy = yy + fontSize * 0.5;
+      c.fillRect(ux, uy + 4, w, Math.max(2, Math.round(fontSize * 0.04)));
+    }
+  });
   c.restore();
+}
+
+// Split a line at the highlight word; paint highlight word in highlight.color
+// (or as a coloured pill behind the word for style="pill").
+function drawLineWithHighlight(c, line, x, y, align, highlight, fontSize, baseColor) {
+  const idx = line.toLowerCase().indexOf(highlight.word.toLowerCase());
+  const before = line.slice(0, idx);
+  const word = line.slice(idx, idx + highlight.word.length);
+  const after = line.slice(idx + highlight.word.length);
+  const wBefore = c.measureText(before).width;
+  const wWord = c.measureText(word).width;
+  const wAfter = c.measureText(after).width;
+  const total = wBefore + wWord + wAfter;
+  let startX;
+  if (align === "center") startX = x - total / 2;
+  else if (align === "right") startX = x - total;
+  else startX = x;
+
+  const savedAlign = c.textAlign;
+  c.textAlign = "left";
+  c.fillStyle = baseColor;
+  c.fillText(before, startX, y);
+  if (highlight.style === "pill") {
+    const padX = fontSize * 0.18;
+    const padY = fontSize * 0.10;
+    c.fillStyle = highlight.color;
+    roundRectPath(c, startX + wBefore - padX, y - fontSize * 0.5 - padY, wWord + padX * 2, fontSize + padY * 2, fontSize * 0.18);
+    c.fill();
+    c.fillStyle = highlight.pillTextColor || "#1a1a1a";
+  } else {
+    c.fillStyle = highlight.color;
+  }
+  c.fillText(word, startX + wBefore, y);
+  c.fillStyle = baseColor;
+  c.fillText(after, startX + wBefore + wWord, y);
+  c.textAlign = savedAlign;
+}
+
+// Hex → rgba helper for shadow/glow opacity.
+function hexWithAlpha(hex, alpha) {
+  if (!hex || typeof hex !== "string") return `rgba(0, 0, 0, ${alpha})`;
+  const m = hex.replace("#", "");
+  if (m.length === 3) {
+    const r = parseInt(m[0] + m[0], 16), g = parseInt(m[1] + m[1], 16), b = parseInt(m[2] + m[2], 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  if (m.length === 6) {
+    const r = parseInt(m.slice(0, 2), 16), g = parseInt(m.slice(2, 4), 16), b = parseInt(m.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  return hex;
 }
 
 function wrapText(c, text, maxWidth) {
