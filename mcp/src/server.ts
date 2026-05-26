@@ -39,7 +39,7 @@ import { RESOURCES, readResource } from "./resources.js";
 import { PROMPTS, getPrompt } from "./prompts.js";
 
 const server = new Server(
-  { name: "myindai-screenshot-mcp", version: "1.0.0-rc.6" },
+  { name: "myindai-screenshot-mcp", version: "1.0.0-rc.7" },
   {
     capabilities: {
       tools: {},
@@ -1230,7 +1230,7 @@ server.setRequestHandler(GetPromptRequestSchema, async (req) => {
 
 async function doctor() {
   process.stdout.write(`[myindai-screenshot-mcp] doctor — diagnosing the environment as the MCP process sees it\n\n`);
-  process.stdout.write(`myindai-screenshot-mcp version : 1.0.0-rc.6\n`);
+  process.stdout.write(`myindai-screenshot-mcp version : 1.0.0-rc.7\n`);
   process.stdout.write(`node                            : ${process.version}\n`);
   process.stdout.write(`platform                        : ${process.platform} (${process.arch})\n`);
   process.stdout.write(`cwd                             : ${process.cwd()}\n`);
@@ -1256,8 +1256,8 @@ async function doctor() {
     process.stdout.write(`ffprobe                         : (not found) ${e?.message || e}\n`);
   }
   process.stdout.write(`\n`);
-  process.stdout.write(`v1.0.0-rc.6 status:\n`);
-  process.stdout.write(`  - LLM not required for any working tool. Vision tools land in v1.0.0-rc.6 via MCP sampling.\n`);
+  process.stdout.write(`v1.0.0-rc.7 status:\n`);
+  process.stdout.write(`  - LLM not required for any working tool. Vision tools land in v1.0.0-rc.7 via MCP sampling.\n`);
   process.stdout.write(`  - ffmpeg / ffprobe not required for any working tool. Video tools land in v1.1.0.\n`);
 }
 
@@ -1330,13 +1330,13 @@ async function main() {
     return;
   }
   if (args.includes("--version") || args.includes("-v")) {
-    process.stdout.write(`myindai-screenshot-mcp 1.0.0-rc.6\n`);
+    process.stdout.write(`myindai-screenshot-mcp 1.0.0-rc.7\n`);
     return;
   }
   if (args.includes("--help") || args.includes("-h")) {
     process.stdout.write(
       [
-        `myindai-screenshot-mcp 1.0.0-rc.6 — App Store / Play Store screenshot + video MCP`,
+        `myindai-screenshot-mcp 1.0.0-rc.7 — App Store / Play Store screenshot + video MCP`,
         ``,
         `Usage:`,
         `  myindai-screenshot-mcp                start the stdio MCP server (default — what MCP clients invoke)`,

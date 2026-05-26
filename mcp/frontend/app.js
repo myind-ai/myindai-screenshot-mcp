@@ -117,6 +117,8 @@ TEMPLATES.set("clean-minimal", {
 
     drawDevice(canvasCtx, three, layout.device, sx);
     drawScreenshot(canvasCtx, image, layout.screen, decision.imageFit, sx, layout.device);
+    // Dynamic island and any other in-frame UI sits ON TOP of the screenshot.
+    drawDeviceForeground(canvasCtx, three, layout.device);
 
     if (decision.headline) {
       drawText(canvasCtx, {
@@ -417,7 +419,14 @@ function computeLayout({ canvasW, canvasH, textPosition, hasHeadline, hasSubhead
   };
 
   return {
-    device: { x: deviceX, y: deviceY, w: deviceWidth, h: deviceHeight, rotation: rotationDeg, cornerRadius },
+    device: {
+      x: deviceX, y: deviceY, w: deviceWidth, h: deviceHeight,
+      rotation: rotationDeg, cornerRadius,
+      // Opt-in dynamic island overlay. Most iOS captures already include it;
+      // pass `screenshot.dynamicIsland: true` to add ours on top of a stripped
+      // or Android-source input.
+      dynamicIsland: sx.dynamicIsland === true,
+    },
     screen,
     headlineY,
     subheadlineY,
@@ -474,6 +483,30 @@ function drawDevice(c, three, frame, screenshotOverride) {
     });
   }
 
+  c.restore();
+}
+
+// Foreground (dynamic island, etc.) — drawn after the screenshot composites,
+// so the island sits ON TOP of whatever the input screenshot contained at the
+// top edge. Normalises every render to one consistent device chrome regardless
+// of which simulator / device captured the input.
+function drawDeviceForeground(c, three, frame) {
+  c.save();
+  if (frame.rotation) {
+    const cx = frame.x + frame.w / 2;
+    const cy = frame.y + frame.h / 2;
+    c.translate(cx, cy);
+    c.rotate((frame.rotation * Math.PI) / 180);
+    c.translate(-cx, -cy);
+  }
+  three.drawDeviceForeground(c, {
+    x: frame.x,
+    y: frame.y,
+    width: frame.w,
+    height: frame.h,
+    cornerRadius: frame.cornerRadius,
+    dynamicIsland: frame.dynamicIsland === true,
+  });
   c.restore();
 }
 
