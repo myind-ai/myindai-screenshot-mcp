@@ -77,7 +77,7 @@ TEMPLATES.set("clean-minimal", {
     imageFit: "contain",
   },
   async render(spec, canvasCtx, three) {
-    const decision = { ...this.defaults, ...(spec.decision || {}) };
+    const decision = normalizeDecision(spec.decision, this.defaults);
     const locale = resolveLocale(spec.language);
     const font = pickFontForLocale(locale, decision.fontFamily);
     const { width, height } = canvas;
@@ -106,7 +106,7 @@ TEMPLATES.set("clean-minimal", {
         fontSize: Math.round(width * 0.062),
         fontWeight: decision.fontWeight,
         font,
-        color: decision.mode === "dark" ? "#ffffff" : "#0a0a0a",
+        color: decision._isDark ? "#ffffff" : "#0a0a0a",
         align: "center",
         baseline: "middle",
         lineHeight: 1.1,
@@ -121,44 +121,131 @@ TEMPLATES.set("clean-minimal", {
         fontSize: Math.round(width * 0.034),
         fontWeight: "500",
         font,
-        color: decision.mode === "dark" ? "#dddddd" : "#3a3a3a",
+        color: decision._isDark ? "#dddddd" : "#3a3a3a",
         align: "center",
         baseline: "middle",
         lineHeight: 1.25,
       });
     }
 
-    debug(`rendered clean-minimal ${width}×${height} (locale=${locale.tag})`);
+    debug(`rendered clean-minimal ${width}×${height} (locale=${locale.tag}, bg=${decision._bgKind})`);
   },
 });
 
 // --- Helpers --------------------------------------------------------------
 
+// renderer: bug #1 fix — accept every server-side field-name variant.
+// Server (`mcp/src/tools/render.ts`) sets `backgroundPreset` (camelCase) and
+// `textColor`; original frontend contract used `background` and `mode`.
+// Render-time normalisation keeps both paths working — render_screenshot,
+// generate_screenshot, render_aso_set, and any future tool that builds the
+// decision object can use whichever convention they prefer.
+function normalizeDecision(raw, defaults) {
+  const d = { ...defaults, ...(raw || {}) };
+
+  // Background. Three legal shapes:
+  //   (a) decision.background = "<presetName>"          ← original contract
+  //   (b) decision.backgroundPreset = "<presetName>"    ← what render_screenshot sends
+  //   (c) decision.background = { type, gradient|solid|image, ... } ← rich object
+  //       (also sent by render_screenshot as input.background)
+  let bgPreset = null;
+  let bgObject = null;
+  let bgKind = "none";
+  if (d.background && typeof d.background === "object") {
+    bgObject = d.background;
+    bgKind = `object:${bgObject.type || "unknown"}`;
+  } else if (typeof d.backgroundPreset === "string" && d.backgroundPreset.trim()) {
+    bgPreset = d.backgroundPreset.trim();
+    bgKind = `preset:${bgPreset}`;
+  } else if (typeof d.background_preset === "string" && d.background_preset.trim()) {
+    bgPreset = d.background_preset.trim();
+    bgKind = `preset:${bgPreset}`;
+  } else if (typeof d.background === "string" && d.background.trim()) {
+    bgPreset = d.background.trim();
+    bgKind = `preset:${bgPreset}`;
+  }
+
+  // Text dark/light. `textColor` ("light"|"dark") is what render_screenshot
+  // sends. The pre-fix code looked at decision.mode and compared to "dark" —
+  // but mode is "2d"|"3d" in the server contract, so the dark text path was
+  // never taken. Defaults to light (white-text) when explicit dark not set.
+  const textColorRaw = d.textColor || d.text_color;
+  let isDark = false;
+  if (textColorRaw === "dark") isDark = true;
+  else if (textColorRaw === "light") isDark = false;
+  else if (d.mode === "dark" || d.mode === "light") isDark = d.mode === "dark";
+
+  // Nested text overrides (server passes input.text through verbatim).
+  const tx = d.text && typeof d.text === "object" ? d.text : {};
+  const fontFamily = d.fontFamily || tx.font || tx.fontFamily || defaults.fontFamily;
+  const fontWeight = d.fontWeight || tx.headlineWeight || tx.fontWeight || defaults.fontWeight;
+
+  return {
+    ...d,
+    fontFamily,
+    fontWeight,
+    textPosition: d.textPosition || d.text_position || defaults.textPosition,
+    imageFit: d.imageFit || d.image_fit || defaults.imageFit,
+    _bgPreset: bgPreset,
+    _bgObject: bgObject,
+    _bgKind: bgKind,
+    _isDark: isDark,
+  };
+}
+
 function paintBackground(c, decision, w, h) {
-  const bg = decision.background;
-  if (!bg || bg === "solid") {
-    c.fillStyle = decision.mode === "dark" ? "#0a0a0a" : "#ffffff";
-    c.fillRect(0, 0, w, h);
-    return;
+  // (a) rich background object — gradient or solid or image.
+  if (decision._bgObject) {
+    const bg = decision._bgObject;
+    if (bg.type === "gradient" && bg.gradient) {
+      paintGradientObject(c, bg.gradient, w, h);
+      return;
+    }
+    if (bg.type === "solid" && bg.solid) {
+      c.fillStyle = bg.solid;
+      c.fillRect(0, 0, w, h);
+      return;
+    }
+    // type "image" not implemented yet (lands with vision tools in rc.x).
   }
-  const preset = PRESET_CATALOG.gradientPresets.find((g) => g.name === bg);
-  if (preset) {
-    paintCssGradient(c, preset.gradient, w, h);
-    return;
+
+  // (b) named preset — case-insensitive lookup so "Ocean" and "ocean" both work.
+  if (decision._bgPreset) {
+    const name = decision._bgPreset;
+    const preset = PRESET_CATALOG.gradientPresets.find(
+      (g) => g.name === name || g.name.toLowerCase() === name.toLowerCase()
+    );
+    if (preset) { paintCssGradient(c, preset.gradient, w, h); return; }
+    // Inline CSS gradient string.
+    if (name.startsWith("linear-gradient")) { paintCssGradient(c, name, w, h); return; }
+    // Hex / rgb / hsl colour.
+    if (/^#|^rgb|^hsl/.test(name)) { c.fillStyle = name; c.fillRect(0, 0, w, h); return; }
   }
-  // Looks like a hex / CSS colour: paint as solid.
-  if (/^#|^rgb|^hsl/.test(bg)) {
-    c.fillStyle = bg;
-    c.fillRect(0, 0, w, h);
-    return;
+
+  // (c) fallback solid.
+  c.fillStyle = decision._isDark ? "#0a0a0a" : "#ffffff";
+  c.fillRect(0, 0, w, h);
+}
+
+// Paint a gradient defined by the rich background.gradient object:
+//   { angle: <0-360>, stops: [{ color, position }, ...] }
+function paintGradientObject(c, g, w, h) {
+  if (!g.stops || !g.stops.length) { c.fillStyle = "#ffffff"; c.fillRect(0, 0, w, h); return; }
+  const angleDeg = typeof g.angle === "number" ? g.angle : 180;
+  const angleRad = ((angleDeg - 90) * Math.PI) / 180;
+  const cx = w / 2, cy = h / 2;
+  const r = Math.max(w, h);
+  const grad = c.createLinearGradient(
+    cx - Math.cos(angleRad) * r,
+    cy - Math.sin(angleRad) * r,
+    cx + Math.cos(angleRad) * r,
+    cy + Math.sin(angleRad) * r
+  );
+  for (const stop of g.stops) {
+    const pos = typeof stop.position === "number" ? Math.max(0, Math.min(1, stop.position / 100)) : 0;
+    grad.addColorStop(pos, stop.color || "#000000");
   }
-  // Looks like an inline CSS gradient string.
-  if (bg.startsWith("linear-gradient")) {
-    paintCssGradient(c, bg, w, h);
-    return;
-  }
-  // Fallback.
-  c.fillStyle = "#ffffff";
+  c.fillStyle = grad;
   c.fillRect(0, 0, w, h);
 }
 
