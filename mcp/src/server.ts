@@ -39,7 +39,7 @@ import { RESOURCES, readResource } from "./resources.js";
 import { PROMPTS, getPrompt } from "./prompts.js";
 
 const server = new Server(
-  { name: "myindai-screenshot-mcp", version: "1.0.0-rc.3" },
+  { name: "myindai-screenshot-mcp", version: "1.0.0-rc.4" },
   {
     capabilities: {
       tools: {},
@@ -1230,7 +1230,7 @@ server.setRequestHandler(GetPromptRequestSchema, async (req) => {
 
 async function doctor() {
   process.stdout.write(`[myindai-screenshot-mcp] doctor — diagnosing the environment as the MCP process sees it\n\n`);
-  process.stdout.write(`myindai-screenshot-mcp version : 1.0.0-rc.3\n`);
+  process.stdout.write(`myindai-screenshot-mcp version : 1.0.0-rc.4\n`);
   process.stdout.write(`node                            : ${process.version}\n`);
   process.stdout.write(`platform                        : ${process.platform} (${process.arch})\n`);
   process.stdout.write(`cwd                             : ${process.cwd()}\n`);
@@ -1256,8 +1256,8 @@ async function doctor() {
     process.stdout.write(`ffprobe                         : (not found) ${e?.message || e}\n`);
   }
   process.stdout.write(`\n`);
-  process.stdout.write(`v1.0.0-rc.3 status:\n`);
-  process.stdout.write(`  - LLM not required for any working tool. Vision tools land in v1.0.0-rc.3 via MCP sampling.\n`);
+  process.stdout.write(`v1.0.0-rc.4 status:\n`);
+  process.stdout.write(`  - LLM not required for any working tool. Vision tools land in v1.0.0-rc.4 via MCP sampling.\n`);
   process.stdout.write(`  - ffmpeg / ffprobe not required for any working tool. Video tools land in v1.1.0.\n`);
 }
 
@@ -1267,30 +1267,51 @@ async function installSkill(): Promise<void> {
   const os = await import("node:os");
   const url = await import("node:url");
   const here = path.dirname(url.fileURLToPath(import.meta.url));
-  // Probe candidate skill source paths — works for both dev (pkg/../skills) and
+  // Probe candidate skills/ ROOT paths — works for both dev (pkg/../skills) and
   // published layout (pkg/skills) since prepack copies skills/ into mcp/.
-  const candidates = [
-    path.resolve(here, "..", "skills", "myindai-screenshot"),
-    path.resolve(here, "..", "..", "skills", "myindai-screenshot"),
+  const rootCandidates = [
+    path.resolve(here, "..", "skills"),
+    path.resolve(here, "..", "..", "skills"),
   ];
-  let src: string | null = null;
-  for (const c of candidates) {
+  let skillsRoot: string | null = null;
+  for (const c of rootCandidates) {
     try {
-      await fs.access(path.join(c, "SKILL.md"));
-      src = c;
-      break;
+      const stat = await fs.stat(c);
+      if (stat.isDirectory()) { skillsRoot = c; break; }
     } catch {}
   }
-  if (!src) {
+  if (!skillsRoot) {
     process.stderr.write(
-      `[myindai-screenshot-mcp] --install-skill: could not locate the bundled skill folder. Tried:\n  ${candidates.join("\n  ")}\n`
+      `[myindai-screenshot-mcp] --install-skill: could not locate the bundled skills/ folder. Tried:\n  ${rootCandidates.join("\n  ")}\n`
     );
     process.exit(1);
   }
-  const dst = path.join(os.homedir(), ".claude", "skills", "myindai-screenshot");
-  await fs.rm(dst, { recursive: true, force: true });
-  await fs.cp(src, dst, { recursive: true });
-  process.stdout.write(`✅ skill installed at ${dst}\n`);
+
+  // Each direct subdirectory of skills/ that contains a SKILL.md is a skill.
+  const entries = await fs.readdir(skillsRoot, { withFileTypes: true });
+  const skills: string[] = [];
+  for (const e of entries) {
+    if (!e.isDirectory()) continue;
+    const skillFile = path.join(skillsRoot, e.name, "SKILL.md");
+    try { await fs.access(skillFile); skills.push(e.name); } catch {}
+  }
+  if (skills.length === 0) {
+    process.stderr.write(`[myindai-screenshot-mcp] --install-skill: no SKILL.md found under ${skillsRoot}\n`);
+    process.exit(1);
+  }
+
+  const dstRoot = path.join(os.homedir(), ".claude", "skills");
+  await fs.mkdir(dstRoot, { recursive: true });
+
+  for (const name of skills) {
+    const src = path.join(skillsRoot, name);
+    const dst = path.join(dstRoot, name);
+    await fs.rm(dst, { recursive: true, force: true });
+    await fs.cp(src, dst, { recursive: true });
+    process.stdout.write(`✅ installed ${name} → ${dst}\n`);
+  }
+
+  process.stdout.write(`\n${skills.length} skill${skills.length === 1 ? "" : "s"} installed at ${dstRoot}/.\n`);
   process.stdout.write(`\nNext: make sure the MCP server is also configured. Either:\n`);
   process.stdout.write(`  claude mcp add myindai-screenshot -- npx -y myindai-screenshot-mcp\n`);
   process.stdout.write(`or paste this into your MCP client's mcp_config.json:\n`);
@@ -1309,13 +1330,13 @@ async function main() {
     return;
   }
   if (args.includes("--version") || args.includes("-v")) {
-    process.stdout.write(`myindai-screenshot-mcp 1.0.0-rc.3\n`);
+    process.stdout.write(`myindai-screenshot-mcp 1.0.0-rc.4\n`);
     return;
   }
   if (args.includes("--help") || args.includes("-h")) {
     process.stdout.write(
       [
-        `myindai-screenshot-mcp 1.0.0-rc.3 — App Store / Play Store screenshot + video MCP`,
+        `myindai-screenshot-mcp 1.0.0-rc.4 — App Store / Play Store screenshot + video MCP`,
         ``,
         `Usage:`,
         `  myindai-screenshot-mcp                start the stdio MCP server (default — what MCP clients invoke)`,

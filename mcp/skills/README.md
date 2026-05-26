@@ -4,23 +4,32 @@ Drop-in Claude Code / Cursor / Windsurf / Cline skills that pair with `myindai-s
 
 | Skill | What it does | Triggers |
 |---|---|---|
-| [`myindai-screenshot`](./myindai-screenshot/SKILL.md) | Full ASO pipeline — install check, brand discovery, render, iterate, set/variants/sizes, 2D & 3D, CLI fallback. | "App Store screenshot", "Play Store screenshot", "ASO", "render this screenshot", "marketing screenshot", "screenshot template", "2D vs 3D device", and ~20 other phrases listed in the skill frontmatter. |
+| [`myindai-screenshot`](./myindai-screenshot/SKILL.md) | Install + setup + basic workflow — install check, brand discovery, render, iterate, set/variants/sizes, CLI fallback. Start here if the MCP server isn't connected yet. | "App Store screenshot", "Play Store screenshot", "ASO", "render this screenshot", "marketing screenshot", "screenshot template", "2D vs 3D device", and ~20 other phrases. |
+| [`myindai-screenshot-templates`](./myindai-screenshot-templates/SKILL.md) | **Design recipes (battle-tested).** 10 named template archetypes (5 2D + 5 3D), the canvas math that prevents text-device overlap, panoramic split for paired adjacent screenshots, source-frame selection rules, renderer-feature support matrix (which template needs which rc). | "screenshot templates", "3D screenshot", "vibrant gradient", "dark premium", "big-number template", "glass aurora", "neon perspective", "ocean hero", "gold premium", "panoramic screenshot", "screenshot layout math", "iPhone 6.9", and ~10 other phrases. |
 
 ## Install (Claude Code)
 
-One-liner:
+**Fastest — via the npm package (installs all skills bundled with this release):**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/myind-ai/myindai-screenshot-mcp/main/skills/install.sh | sh
+npx -y myindai-screenshot-mcp --install-skill
 ```
 
-Or manually:
+That single line copies every `skills/<name>/SKILL.md` from the published tarball into `~/.claude/skills/`. Restart Claude Code to pick up the new skills.
+
+**Alternative — clone + copy:**
 
 ```bash
 git clone https://github.com/myind-ai/myindai-screenshot-mcp.git /tmp/m
 mkdir -p ~/.claude/skills
-cp -r /tmp/m/skills/myindai-screenshot ~/.claude/skills/
+cp -r /tmp/m/skills/* ~/.claude/skills/
 rm -rf /tmp/m
+```
+
+**Or — `curl | sh` one-liner (clones in the background):**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/myind-ai/myindai-screenshot-mcp/main/skills/install.sh | sh
 ```
 
 Then add the MCP server too:

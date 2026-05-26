@@ -5,17 +5,22 @@
 set -eu
 
 REPO="myind-ai/myindai-screenshot-mcp"
-SKILL_NAME="myindai-screenshot"
 DEST="${HOME}/.claude/skills"
 TMP="$(mktemp -d)"
 
 echo "→ cloning ${REPO} to ${TMP}…"
 git clone --depth 1 "https://github.com/${REPO}.git" "${TMP}/repo" >/dev/null
 
-echo "→ installing skill into ${DEST}/${SKILL_NAME}…"
 mkdir -p "${DEST}"
-rm -rf "${DEST:?}/${SKILL_NAME}"
-cp -r "${TMP}/repo/skills/${SKILL_NAME}" "${DEST}/${SKILL_NAME}"
+echo "→ installing every skill under skills/ into ${DEST}/ …"
+for SRC in "${TMP}/repo/skills"/*/; do
+  NAME="$(basename "${SRC}")"
+  if [ -f "${SRC}/SKILL.md" ]; then
+    rm -rf "${DEST:?}/${NAME}"
+    cp -r "${SRC}" "${DEST}/${NAME}"
+    echo "  ✓ ${NAME}"
+  fi
+done
 
 echo "→ cleaning up…"
 rm -rf "${TMP}"

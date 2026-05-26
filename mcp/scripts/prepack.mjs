@@ -54,13 +54,18 @@ if (!ok) {
 if (fs.existsSync(skillsSrc)) {
   fs.rmSync(skillsDst, { recursive: true, force: true });
   fs.cpSync(skillsSrc, skillsDst, { recursive: true });
-  // Sanity-check the canonical skill landed.
-  const skillFile = path.join(skillsDst, "myindai-screenshot", "SKILL.md");
-  if (!fs.existsSync(skillFile)) {
-    console.error(`[prepack] FATAL: SKILL.md missing after copy — aborting publish.`);
+  // Sanity-check: at least one subdirectory under skills/ must have a SKILL.md.
+  const dirs = fs.readdirSync(skillsDst, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name);
+  const skills = dirs.filter((name) =>
+    fs.existsSync(path.join(skillsDst, name, "SKILL.md"))
+  );
+  if (skills.length === 0) {
+    console.error(`[prepack] FATAL: no SKILL.md found under any subfolder of ${skillsDst} — aborting publish.`);
     process.exit(1);
   }
-  console.log(`[prepack] ok skills/ copied → ${path.relative(pkgRoot, skillsDst)} (${countFiles(skillsDst)} files)`);
+  console.log(`[prepack] ok skills/ copied → ${path.relative(pkgRoot, skillsDst)} (${skills.length} skills: ${skills.join(", ")}, ${countFiles(skillsDst)} files total)`);
 } else {
   console.warn(`[prepack] note: ${skillsSrc} not found — publishing without bundled skills (--install-skill won't work).`);
 }
