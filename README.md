@@ -4,7 +4,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![MCP](https://img.shields.io/badge/Model%20Context%20Protocol-1.x-7c3aed.svg)](https://modelcontextprotocol.io)
-[![status](https://img.shields.io/badge/status-v1.0.0--rc.1%20clean--room%20preview-orange.svg)](#status)
+[![status](https://img.shields.io/badge/status-v1.0.0--rc.7-brightgreen.svg)](#status)
+[![npm](https://img.shields.io/npm/v/myindai-screenshot-mcp.svg)](https://www.npmjs.com/package/myindai-screenshot-mcp)
 
 Maintained by [myind.ai](https://github.com/myind-ai).
 
@@ -12,20 +13,36 @@ Maintained by [myind.ai](https://github.com/myind-ai).
 
 ## Status
 
-**v1.0.0-rc.1 — clean-room preview release.** The MCP server (all 25 tool surfaces) is the production codebase. The headless renderer (`mcp/frontend/`) is being re-implemented from scratch under the [clean-room rewrite protocol](docs/clean-room-rewrite.md). v1.0.0-rc.1 ships:
+**v1.0.0-rc.7.** 25 tool surfaces; the renderer produces real App Store screenshots today on a hand-drawn iPhone device frame (rounded chassis + chrome rim + opt-in dynamic island, pure Canvas 2D — no `.glb`, no external assets).
 
-- ✅ `--doctor` — environment / dependency check
-- ✅ `list_presets`, `list_assets`, `list_video_templates`, `list_presets` — catalog tools
-- ✅ `render_screenshot` — single screenshot, `clean-minimal` template, iPhone 15 Pro Max device
-- 🟡 `render_aso_set`, `render_ab_variants`, `render_multi_size`, `render_localized_set`, `render_play_store_set` — coming in v1.0.0-rc.2
-- 🟡 `render_video`, `auto_video`, `render_video_template`, `render_video_concept` — coming in v1.1.0
-- 🟡 `suggest_headlines`, `pick_brand_color`, `extract_palette`, `clone_reference`, `detect_empty_state` — vision tools coming in v1.0.0-rc.3
+**Working now:**
 
-See [CHANGELOG.md](CHANGELOG.md) for the full ship plan.
+- ✅ `render_screenshot` — full creative control: `background_preset` + rich `background` objects (gradient/solid), `position_preset` (centre / tilt / bleed), `screenshot` overrides (`scale`, `x`, `y`, `rotation`, `cornerRadius`, `glow`, `shadow`), `text` overrides (`headlineSize`, `headlineColor`, `headlineWeight`, `headlineFont`, `headlineHighlightWord` + pill, `letterSpacing`, `italic`, `underline`, `offsetY`, …), `text_color`, and the 4 App Store iPhone sizes (6.9″ / 6.7″ / 6.5″ / 5.5″).
+- ✅ `list_presets`, `list_assets`, `list_video_templates`, `record_telemetry`, `list_telemetry`, `memory_read`, `memory_write`
+- ✅ `--doctor`, `--install-skill`, `--version`, `--help`
+
+**Deferred (with explicit warnings when invoked):**
+
+- 🟡 Real WebGL 3D (`use3D`, `device3D`, `rotation3D`) — needs licensed `.glb` device models. `mode: "3d"` currently returns a 2D fallback + a `warnings` entry.
+- 🟡 Set-level tools (`render_aso_set`, `render_ab_variants`, `render_multi_size`, `render_localized_set`, `render_play_store_set`, `make_showcase`) — loop `render_screenshot` until they land.
+- 🟡 Vision tools (`suggest_headlines`, `pick_brand_color`, `extract_palette`, `clone_reference`, `detect_empty_state`) and `generate_screenshot` — use [MCP sampling](docs/llm-strategy.md); emit a `warnings` entry when no LLM is available.
+- 🟡 Video pipeline (`render_video`, `auto_video`, `render_video_template`, `render_video_concept`) — v1.1.0.
+
+See [CHANGELOG.md](CHANGELOG.md) for the full history and [TOOLS.md](TOOLS.md) for the per-tool status table.
 
 ## Install (end user)
 
-The fastest path — let your MCP client install it via `npx`. **No API key needed** for the v1.0.0-rc.1 tool surface (everything you can use today is renderer-only). The (later) vision tools will use [MCP sampling](docs/llm-strategy.md) — i.e. they ask **your** MCP client's LLM to do the completion, so you never have to give the server its own key.
+Two commands — add the MCP server, then (optionally) install the Claude Code skills:
+
+```bash
+# 1. add the server to your MCP client
+claude mcp add myindai-screenshot -- npx -y myindai-screenshot-mcp
+
+# 2. install the bundled Claude Code skills (getting-started + design templates)
+npx -y myindai-screenshot-mcp --install-skill
+```
+
+Or hand-edit your client's config. **No API key needed** — the working tool surface is renderer-only, and the (later) vision tools use [MCP sampling](docs/llm-strategy.md) so they ask **your** MCP client's LLM, never the server's own key:
 
 ```json
 {
@@ -75,45 +92,34 @@ npx -y myindai-screenshot-mcp --doctor
 Example output:
 
 ```
-myindai-screenshot-mcp version : 1.0.0-rc.1
+myindai-screenshot-mcp version : 1.0.0-rc.7
 node                            : v22.14.0
 platform                        : darwin (arm64)
 PATH                            : /usr/bin:/bin
-ANTHROPIC_API_KEY               : unset (rc.1: not required — uses MCP sampling)
-FFMPEG_PATH                     : unset (rc.1: not required — no video tools yet)
-FFPROBE_PATH                    : unset (rc.1: not required — no video tools yet)
+ANTHROPIC_API_KEY               : unset (not required — uses your MCP client's LLM via sampling)
+FFMPEG_PATH                     : unset (not required — video tools land in v1.1.0)
+FFPROBE_PATH                    : unset (not required — video tools land in v1.1.0)
 ```
 
-Any ❌ tells you exactly what to fix. `unset` for the optional fields is fine in rc.1.
+Any ❌ tells you exactly what to fix. `unset` for the optional fields is fine.
 
-## Tools (v1.0.0-rc.1 → v1.1.0 roadmap)
+## Tools
 
 | Tool | Status | Description |
 |---|---|---|
-| `--doctor` | ✅ | Environment + dependency report |
+| `render_screenshot` | ✅ | Single App Store / Play Store screenshot. Full background / position / screenshot / text overrides + 4 App Store iPhone sizes. |
 | `list_presets` | ✅ | Catalogue of templates, gradients, modes, devices, canvas sizes |
-| `list_assets` | ✅ | Local asset library (uploaded screenshots, reference imports) |
+| `list_assets` / `get_asset` | ✅ | Local asset library |
 | `list_video_templates` | ✅ | Video template catalogue |
-| `render_screenshot` | ✅ (1 template, 1 device) | Render a single App Store screenshot |
-| `pick_brand_color` | 🟡 v1.0.0-rc.3 | Auto-pick a brand colour from the input screenshot |
-| `extract_palette` | 🟡 v1.0.0-rc.3 | Extract a multi-stop palette for use as gradients |
-| `suggest_headlines` | 🟡 v1.0.0-rc.3 | Vision-driven headline suggestions for the input screenshot |
-| `detect_empty_state` | 🟡 v1.0.0-rc.3 | Detect "empty state" screenshots so they're handled with different copy |
-| `clone_reference` | 🟡 v1.0.0-rc.3 | Clone the style of a reference screenshot from a competitor |
-| `render_ab_variants` | 🟡 v1.0.0-rc.2 | Render N variants for A/B testing |
-| `render_aso_set` | 🟡 v1.0.0-rc.2 | Render a full 6-shot ASO set |
-| `render_multi_size` | 🟡 v1.0.0-rc.2 | Export every required App Store size in one shot |
-| `render_localized_set` | 🟡 v1.0.0-rc.2 | One command → N languages, locale-aware fonts |
-| `render_play_store_set` | 🟡 v1.0.0-rc.2 | Play Store-specific aspect ratios and constraints |
-| `make_showcase` | 🟡 v1.0.0-rc.2 | Showcase grid for portfolio / case studies |
-| `render_video` | 🟡 v1.1.0 | Render a product video from screenshots + script |
-| `render_video_template` | 🟡 v1.1.0 | Apply a video template (intro/loop/outro) |
-| `render_video_concept` | 🟡 v1.1.0 | LLM-driven video concept → video |
-| `auto_video` | 🟡 v1.1.0 | One-shot: screenshots → finished video |
-| `generate_screenshot` | 🟡 v1.0.0-rc.2 | LLM-driven copy + render |
-| `record_telemetry` | ✅ | Record rendering telemetry for later analysis |
-| `list_telemetry` | ✅ | Inspect recorded telemetry |
-| `memory_read`, `memory_write` | ✅ | Per-app design memory (brand kit, voice, last-used template) |
+| `record_telemetry` / `list_telemetry` | ✅ | Per-render telemetry log |
+| `memory_read` / `memory_write` | ✅ | Per-app design memory (brand kit, voice, last template) |
+| `--doctor` / `--install-skill` / `--version` / `--help` | ✅ | CLI surfaces |
+| `generate_screenshot` | 🟡 | LLM-driven copy + render. Uses sampling; warns + falls back deterministically without an LLM. |
+| `render_aso_set` / `render_ab_variants` / `render_multi_size` / `render_localized_set` / `render_play_store_set` / `make_showcase` | 🟡 | Set-level renderers. Loop `render_screenshot` until they land. |
+| `pick_brand_color` / `extract_palette` / `suggest_headlines` / `detect_empty_state` / `clone_reference` | 🟡 | Vision tools — via MCP sampling. |
+| `render_video` / `render_video_template` / `render_video_concept` / `auto_video` | 🟡 v1.1.0 | Video pipeline (needs ffmpeg). |
+
+Full per-tool input schemas + examples: [TOOLS.md](TOOLS.md).
 
 ## Roadmap
 
@@ -141,27 +147,32 @@ After v1.0.0 ships (full feature parity with the v0.5.1 surface), the next four 
 │                           │ Playwright CDP                              │
 │                           ▼                                             │
 │  ┌─ headless Chromium ────────────────────────────────────────────────┐ │
-│  │  mcp/frontend/index.html   ← canvas + DOM scaffold                 │ │
-│  │  mcp/frontend/app.js       ← window.__mcp (4 functions)            │ │
-│  │  mcp/frontend/three-renderer.js  ← three.js scene                  │ │
-│  │  mcp/frontend/img/*.svg    ← UI icons                              │ │
-│  │  mcp/frontend/models/*.glb ← 3D device models                      │ │
+│  │  mcp/frontend/index.html        ← canvas + DOM scaffold            │ │
+│  │  mcp/frontend/app.js            ← window.__mcp (4 functions)       │ │
+│  │  mcp/frontend/three-renderer.js ← hand-drawn iPhone device frame   │ │
+│  │  mcp/frontend/language-utils.js ← locale / font selection          │ │
+│  │  mcp/frontend/styles.css                                          │ │
 │  └────────────────────────────────────────────────────────────────────┘ │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
 The server-renderer contract is **4 functions on `window.__mcp`** — see [docs/architecture.md](docs/architecture.md) for details. That contract is what makes the clean-room rewrite feasible.
 
-## Tools reference + Claude Code skill
+## Tools reference + Claude Code skills
 
-- **[TOOLS.md](TOOLS.md)** — every tool (25 surfaces), its inputs/outputs, current status, example calls, env vars, and resource URIs (`myindai://presets`, `myindai://design-guide`, …). This is the reference.
-- **[skills/myindai-screenshot/SKILL.md](skills/myindai-screenshot/SKILL.md)** — drop-in Claude Code skill that turns the tools into a guided ASO workflow (brand discovery → render → iterate → set/variants/sizes, 2D & 3D paths, CLI fallback). One-liner install:
+- **[TOOLS.md](TOOLS.md)** — every tool (25 surfaces), inputs/outputs, status, example calls, env vars, and resource URIs (`myindai://presets`, `myindai://design-guide`, …).
+- **Two bundled Claude Code skills**, installed with one command:
 
   ```bash
-  curl -fsSL https://raw.githubusercontent.com/myind-ai/myindai-screenshot-mcp/main/skills/install.sh | sh
+  npx -y myindai-screenshot-mcp --install-skill
   ```
 
-  After install, say things like *"make App Store screenshots for my app"* and the skill activates. See [skills/README.md](skills/README.md) for other clients (Cursor / Windsurf / Cline).
+  | Skill | What it does |
+  |---|---|
+  | [`myindai-screenshot`](skills/myindai-screenshot/SKILL.md) | Getting-started: install check, brand discovery, render, iterate, CLI fallback. |
+  | [`myindai-screenshot-templates`](skills/myindai-screenshot-templates/SKILL.md) | Battle-tested design recipes — 10 named archetypes (5 2D + 5 3D), canvas math, panoramic split, source-frame rules, renderer-support matrix. |
+
+  After install, say *"make App Store screenshots for my app"* and the right skill activates. See [skills/README.md](skills/README.md) for Cursor / Windsurf / Cline install paths (also supports `curl … | sh` and manual clone).
 
 ## Contributing
 
